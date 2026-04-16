@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>새문안교회 출석 기록</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #efefed;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9e9e9a;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --teal: #1D9E75;
+    --teal-bg: #E1F5EE;
+    --teal-text: #085041;
+    --blue: #378ADD;
+    --red: #E24B4A;
+    --red-bg: #FCEBEB;
+    --red-text: #A32D2D;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2c;
+      --text: #f0f0ee;
+      --text2: #a0a09c;
+      --text3: #6e6e6a;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+      --teal-bg: #04342C;
+      --teal-text: #9FE1CB;
+      --red-bg: #501313;
+      --red-text: #F7C1C1;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+
+  /* NAV */
+  nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 50; }
+  .nav-inner { max-width: 780px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; gap: 0; }
+  .nav-title { font-size: 14px; font-weight: 500; color: var(--text); padding: 14px 0; margin-right: 1.5rem; white-space: nowrap; }
+  .nav-tab { font-size: 14px; padding: 14px 14px; cursor: pointer; border: none; background: none; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -0.5px; }
+  .nav-tab.active { color: var(--text); border-bottom: 2px solid var(--text); font-weight: 500; }
+
+  /* LAYOUT */
+  .page { display: none; }
+  .page.active { display: block; }
+  .inner { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+  /* CARD */
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+
+  /* FORM */
+  .date-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .date-row label, .field-group label, .recorder-row label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 4px; }
+  input[type=date], input[type=month], input[type=number], input[type=text], select {
+    font-size: 14px; padding: 7px 10px; border-radius: var(--radius-md);
+    border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text);
+    outline: none; width: 100%;
+  }
+  input[type=date], input[type=month] { width: auto; }
+  input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(55,138,221,0.12); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+  .wool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
+  .wool-field label { font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .recorder-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 1.25rem; }
+  .recorder-row label { margin-bottom: 4px; }
+  .recorder-row .rfield { flex: 1; }
+  .section-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 0.5px solid var(--border); }
+
+  /* BUTTONS */
+  .btn-primary { background: var(--text); color: var(--bg); border: none; border-radius: var(--radius-md); padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-sm { font-size: 13px; padding: 6px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; white-space: nowrap; }
+  .btn-sm:hover { background: var(--bg3); }
+  .btn-delete { background: none; border: 0.5px solid var(--border2); border-radius: var(--radius-md); padding: 6px 10px; font-size: 12px; color: var(--text2); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .btn-delete:hover { background: var(--red-bg); color: var(--red-text); border-color: var(--red); }
+
+  /* TOAST */
+  .toast { display: none; border-radius: var(--radius-md); padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; }
+  .toast.show { display: block; }
+  .toast.success { background: var(--teal); color: var(--teal-bg); }
+  .toast.deleted { background: var(--red); color: var(--red-bg); }
+
+  /* LOG LIST */
+  .filter-row { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+  .log-list { display: flex; flex-direction: column; gap: 8px; }
+  .log-item { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 12px; }
+  .log-item:hover { border-color: var(--border2); }
+  .log-info { flex: 1; cursor: pointer; }
+  .log-date { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .log-summary { font-size: 12px; color: var(--text2); }
+  .log-recorder { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text2); font-size: 14px; }
+
+  /* CONFIRM MODAL */
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-bg.open { display: flex; }
+  .modal-box { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 1.5rem; max-width: 320px; width: 100%; text-align: center; }
+  .modal-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .modal-desc { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.6; }
+  .modal-btns { display: flex; gap: 8px; }
+  .btn-cancel { flex: 1; font-size: 13px; padding: 9px; border-radius: var(--radius-md); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; }
+  .btn-confirm-del { flex: 1; font-size: 13px; padding: 9px; border-radius: var(--radius-md); border: none; background: var(--red); color: var(--red-bg); cursor: pointer; font-weight: 500; }
+
+  /* DETAIL MODAL */
+  .detail-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.38); z-index: 200; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+  .detail-bg.open { display: flex; }
+  .detail-card { background: var(--bg); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 480px; }
+  .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+  .detail-header h2 { font-size: 16px; font-weight: 500; }
+  .close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text2); line-height: 1; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  .stat-box { background: var(--bg2); border-radius: var(--radius-md); padding: 10px 12px; }
+  .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 2px; }
+  .stat-val { font-size: 20px; font-weight: 500; }
+  .wool-detail-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; }
+  .wool-detail-row:last-child { border-bottom: none; }
+
+  /* STATS */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: var(--bg2); border-radius: var(--radius-md); padding: 12px 14px; }
+  .m-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .m-val { font-size: 22px; font-weight: 500; }
+  .m-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .m-up { color: var(--teal); font-size: 11px; margin-top: 2px; }
+  .m-down { color: var(--red); font-size: 11px; margin-top: 2px; }
+
+  /* DASHBOARD CHART */
+  .chart-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .chart-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .chart-sub { font-size: 11px; color: var(--text2); margin-bottom: 1rem; }
+  .legend { display: flex; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .wool-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .wool-name { font-size: 12px; color: var(--text2); width: 76px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wool-bar-bg { flex: 1; background: var(--bg2); border-radius: 4px; height: 12px; overflow: hidden; }
+  .wool-bar-fill { height: 100%; border-radius: 4px; background: var(--teal); }
+  .wool-val { font-size: 12px; font-weight: 500; min-width: 36px; text-align: right; }
+
+  /* DASH FILTER */
+  .dash-filter { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem; }
+  .dash-filter label { font-size: 13px; color: var(--text2); }
+  .sep { color: var(--text3); font-size: 13px; }
+  .dash-filter select { width: auto; }
+
+  @media (max-width: 480px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .nav-title { font-size: 13px; margin-right: 0.5rem; }
+    .nav-tab { font-size: 13px; padding: 14px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-title">새문안교회</span>
+    <button class="nav-tab active" onclick="switchPage('record')">기록 입력</button>
+    <button class="nav-tab" onclick="switchPage('list')">기록 목록</button>
+    <button class="nav-tab" onclick="switchPage('dashboard')">대시보드</button>
+  </div>
+</nav>
+
+<!-- 기록 입력 -->
+<div id="page-record" class="page active">
+  <div class="inner">
+    <div class="card">
+      <div id="toast" class="toast"></div>
+      <div class="date-row">
+        <div>
+          <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:4px">날짜</label>
+          <input type="date" id="input-date" style="width:auto" />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field-group"><label>예배 참석 인원</label><input type="number" id="worship" placeholder="0" min="0" /></div>
+        <div class="field-group"><label>집회 참석 인원</label><input type="number" id="meeting" placeholder="0" min="0" /></div>
+      </div>
+      <div class="section-label">울 별 참석 인원</div>
+      <div class="wool-grid" id="wool-inputs"></div>
+      <div class="recorder-row">
+        <div class="rfield"><label>기록자</label><input type="text" id="recorder" placeholder="이름을 입력하세요" /></div>
+      </div>
+      <button class="btn-primary" onclick="saveRecord()">저장하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 기록 목록 -->
+<div id="page-list" class="page">
+  <div class="inner">
+    <div class="filter-row">
+      <input type="month" id="filter-month" onchange="renderList()" style="width:auto" />
+      <button class="btn-sm" onclick="document.getElementById('filter-month').value=''; renderList()">전체 보기</button>
+    </div>
+    <div id="log-list" class="log-list"></div>
+  </div>
+</div>
+
+<!-- 대시보드 -->
+<div id="page-dashboard" class="page">
+  <div class="inner">
+    <div class="dash-filter">
+      <label>기간</label>
+      <input type="date" id="f-start" onchange="renderDash()" style="width:auto" />
+      <span class="sep">~</span>
+      <input type="date" id="f-end" onchange="renderDash()" style="width:auto" />
+      <select id="f-nweeks" onchange="applyNWeeks()" style="width:auto">
+        <option value="">직접 설정</option>
+        <option value="4">최근 4주</option>
+        <option value="8" selected>최근 8주</option>
+        <option value="12">최근 12주</option>
+        <option value="24">최근 24주</option>
+        <option value="9999">전체</option>
+      </select>
+    </div>
+    <div class="metric-grid" id="dash-metrics"></div>
+    <div class="chart-card">
+      <div class="chart-title">주차별 예배 · 집회 인원 추이</div>
+      <div class="chart-sub" id="chart-period"></div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>예배</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>집회</span>
+      </div>
+      <div style="position:relative;width:100%;height:260px;">
+        <canvas id="trendChart" role="img" aria-label="주차별 예배 및 집회 인원 추이"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">울 별 평균 참석 인원</div>
+      <div class="chart-sub">선택 기간 평균값 기준 내림차순</div>
+      <div id="wool-bars"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 삭제 확인 모달 -->
+<div id="confirm-modal" class="modal-bg" onclick="handleModalBgClick(event,'confirm-modal')">
+  <div class="modal-box">
+    <div class="modal-title">기록을 삭제할까요?</div>
+    <div class="modal-desc" id="confirm-desc"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('confirm-modal')">취소</button>
+      <button class="btn-confirm-del" onclick="confirmDelete()">삭제</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 보기 모달 -->
+<div id="detail-modal" class="detail-bg" onclick="handleModalBgClick(event,'detail-modal')">
+  <div class="detail-card">
+    <div class="detail-header">
+      <h2 id="detail-title">상세 기록</h2>
+      <button class="close-btn" onclick="closeModal('detail-modal')">×</button>
+    </div>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<script>
+const WOOLS = ['새가족반','김보연울','이수인울','손동호울','김지인울','주지은울','최민정울','정충만울','배주희울','이승주울','이련경울','양승연울','이승은울'];
+const STORAGE_KEY = 'saemunaan-records';
+let records = [];
+let pendingDeleteDate = null;
+let trendChartInst = null;
+
+/* ─── Storage (localStorage fallback) ─── */
+const store = {
+  async get(key) {
+    if (window.storage) {
+      try { const r = await window.storage.get(key, true); return r ? JSON.parse(r.value) : null; } catch(e) {}
+    }
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch(e) { return null; }
+  },
+  async set(key, val) {
+    if (window.storage) {
+      try { await window.storage.set(key, JSON.stringify(val), true); return; } catch(e) {}
+    }
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+  }
+};
+
+async function load() {
+  const data = await store.get(STORAGE_KEY);
+  records = Array.isArray(data) ? data : [];
+  renderList();
+  renderDash();
+}
+
+/* ─── Page nav ─── */
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelector(`.nav-tab[onclick="switchPage('${id}')"]`).classList.add('active');
+  if (id === 'dashboard') renderDash();
+}
+
+/* ─── Modal helpers ─── */
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function handleModalBgClick(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+/* ─── Form ─── */
+function renderWoolInputs() {
+  document.getElementById('wool-inputs').innerHTML = WOOLS.map(w =>
+    `<div class="wool-field"><label title="${w}">${w}</label><input type="number" id="wool-${w}" placeholder="0" min="0" /></div>`
+  ).join('');
+}
+
+function clearForm() {
+  document.getElementById('worship').value = '';
+  document.getElementById('meeting').value = '';
+  document.getElementById('recorder').value = '';
+  WOOLS.forEach(w => { const el = document.getElementById('wool-'+w); if(el) el.value = ''; });
+}
+
+async function saveRecord() {
+  const date = document.getElementById('input-date').value;
+  if (!date) { alert('날짜를 선택해주세요'); return; }
+  const worship = parseInt(document.getElementById('worship').value) || 0;
+  const meeting = parseInt(document.getElementById('meeting').value) || 0;
+  const recorder = document.getElementById('recorder').value.trim() || '미기재';
+  const woolData = {};
+  WOOLS.forEach(w => { woolData[w] = parseInt(document.getElementById('wool-'+w)?.value) || 0; });
+  const idx = records.findIndex(r => r.date === date);
+  const record = { date, worship, meeting, woolData, recorder, updatedAt: new Date().toISOString() };
+  if (idx >= 0) records[idx] = record; else records.push(record);
+  records.sort((a, b) => b.date.localeCompare(a.date));
+  await store.set(STORAGE_KEY, records);
+  showToast('저장되었습니다!', 'success');
+  clearForm();
+  renderList();
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ─── List ─── */
+function renderList() {
+  const fm = document.getElementById('filter-month').value;
+  const filtered = fm ? records.filter(r => r.date.startsWith(fm)) : records;
+  const container = document.getElementById('log-list');
+  if (!filtered.length) { container.innerHTML = '<div class="empty-state">기록이 없습니다</div>'; return; }
+  container.innerHTML = filtered.map(r => {
+    const woolTotal = Object.values(r.woolData || {}).reduce((a,b) => a+b, 0);
+    const d = new Date(r.date + 'T00:00:00');
+    const label = `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+    return `<div class="log-item">
+      <div class="log-info" onclick="showDetail('${r.date}')">
+        <div class="log-date">${label}</div>
+        <div class="log-summary">예배 ${r.worship}명 · 집회 ${r.meeting}명 · 울 합계 ${woolTotal}명</div>
+        <div class="log-recorder">기록자: ${r.recorder}</div>
+      </div>
+      <button class="btn-delete" onclick="requestDelete('${r.date}')">삭제</button>
+    </div>`;
+  }).join('');
+}
+
+/* ─── Delete ─── */
+function requestDelete(date) {
+  pendingDeleteDate = date;
+  const d = new Date(date + 'T00:00:00');
+  document.getElementById('confirm-desc').textContent =
+    `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 기록을 삭제하면 복구할 수 없습니다.`;
+  openModal('confirm-modal');
+}
+async function confirmDelete() {
+  if (!pendingDeleteDate) return;
+  records = records.filter(r => r.date !== pendingDeleteDate);
+  pendingDeleteDate = null;
+  closeModal('confirm-modal');
+  await store.set(STORAGE_KEY, records);
+  showToast('삭제되었습니다', 'deleted');
+  renderList();
+  renderDash();
+}
+
+/* ─── Detail ─── */
+function showDetail(date) {
+  const r = records.find(x => x.date === date);
+  if (!r) return;
+  const d = new Date(r.date + 'T00:00:00');
+  document.getElementById('detail-title').textContent = `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+  const woolTotal = Object.values(r.woolData || {}).reduce((a,b) => a+b, 0);
+  document.getElementById('detail-body').innerHTML = `
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-label">예배 참석</div><div class="stat-val">${r.worship}명</div></div>
+      <div class="stat-box"><div class="stat-label">집회 참석</div><div class="stat-val">${r.meeting}명</div></div>
+    </div>
+    <div class="stat-box" style="margin-bottom:1rem"><div class="stat-label">울 전체 합계</div><div class="stat-val">${woolTotal}명</div></div>
+    <div class="section-label" style="margin-bottom:8px">울 별 상세</div>
+    <div>${WOOLS.map(w => `<div class="wool-detail-row"><span style="color:var(--text2)">${w}</span><span style="font-weight:500">${r.woolData[w]||0}명</span></div>`).join('')}</div>
+    <div style="margin-top:1rem;font-size:12px;color:var(--text3)">기록자: ${r.recorder}</div>
+  `;
+  openModal('detail-modal');
+}
+
+/* ─── Dashboard ─── */
+function getDashFiltered() {
+  const s = document.getElementById('f-start').value;
+  const e = document.getElementById('f-end').value;
+  return [...records]
+    .filter(r => (!s || r.date >= s) && (!e || r.date <= e))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function applyNWeeks() {
+  const n = parseInt(document.getElementById('f-nweeks').value);
+  const sorted = [...records].sort((a,b) => b.date.localeCompare(a.date));
+  if (!sorted.length) { renderDash(); return; }
+  if (!isNaN(n)) {
+    const slice = n >= 9999 ? sorted : sorted.slice(0, n);
+    document.getElementById('f-start').value = slice[slice.length-1].date;
+    document.getElementById('f-end').value = slice[0].date;
+  }
+  renderDash();
+}
+
+function avg(arr) { return arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : 0; }
+
+function renderDash() {
+  const filtered = getDashFiltered();
+  const n = filtered.length;
+  document.getElementById('chart-period').textContent = n
+    ? `${filtered[0].date} ~ ${filtered[n-1].date}`  : '';
+
+  /* metrics */
+  if (!n) {
+    document.getElementById('dash-metrics').innerHTML = '<div class="empty-state">데이터가 없습니다</div>';
+    document.getElementById('wool-bars').innerHTML = '';
+    if (trendChartInst) { trendChartInst.destroy(); trendChartInst = null; }
+    return;
+  }
+  const worships = filtered.map(r => r.worship);
+  const meetings = filtered.map(r => r.meeting);
+  const woolTotals = filtered.map(r => Object.values(r.woolData||{}).reduce((a,b)=>a+b,0));
+  const avgW = avg(worships), avgM = avg(meetings), avgUl = avg(woolTotals);
+  const maxW = Math.max(...worships), maxM = Math.max(...meetings);
+  let cmpW = '', cmpM = '';
+  if (n >= 4) {
+    const h = Math.floor(n/2);
+    const dw = avg(worships.slice(h)) - avg(worships.slice(0,h));
+    const dm = avg(meetings.slice(h)) - avg(meetings.slice(0,h));
+    const pw = Math.round(Math.abs(dw)/Math.max(avg(worships.slice(0,h)),1)*100);
+    const pm = Math.round(Math.abs(dm)/Math.max(avg(meetings.slice(0,h)),1)*100);
+    cmpW = `<div class="${dw>=0?'m-up':'m-down'}">${dw>=0?'▲':'▼'} ${pw}% 전반 대비</div>`;
+    cmpM = `<div class="${dm>=0?'m-up':'m-down'}">${dm>=0?'▲':'▼'} ${pm}% 전반 대비</div>`;
+  }
+  document.getElementById('dash-metrics').innerHTML = `
+    <div class="metric"><div class="m-label">평균 예배 인원</div><div class="m-val">${avgW}명</div><div class="m-sub">최고 ${maxW}명</div>${cmpW}</div>
+    <div class="metric"><div class="m-label">평균 집회 인원</div><div class="m-val">${avgM}명</div><div class="m-sub">최고 ${maxM}명</div>${cmpM}</div>
+    <div class="metric"><div class="m-label">울 평균 합계</div><div class="m-val">${avgUl}명</div><div class="m-sub">${n}회 기준</div></div>
+    <div class="metric"><div class="m-label">기록 횟수</div><div class="m-val">${n}회</div></div>
+  `;
+
+  /* trend chart */
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+  const tickColor = isDark ? '#6e6e6a' : '#9e9e9a';
+  const labels = filtered.map(r => { const d = new Date(r.date+'T00:00:00'); return `${d.getMonth()+1}/${d.getDate()}`; });
+  if (trendChartInst) { trendChartInst.destroy(); trendChartInst = null; }
+  trendChartInst = new Chart(document.getElementById('trendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'예배', data: worships, borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.07)', borderWidth:2, pointRadius: n>20?2:4, pointBackgroundColor:'#378ADD', tension:0.3, fill:true },
+        { label:'집회', data: meetings, borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.07)', borderWidth:2, pointRadius: n>20?2:4, pointBackgroundColor:'#1D9E75', tension:0.3, fill:true, borderDash:[5,3] }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c=>`${c.dataset.label}: ${c.parsed.y}명` } } },
+      scales:{
+        x:{ ticks:{ font:{size:11}, color:tickColor, autoSkip:true, maxTicksLimit:12 }, grid:{display:false}, border:{display:false} },
+        y:{ ticks:{ font:{size:11}, color:tickColor, callback: v=>v+'명' }, grid:{color:gridColor}, border:{display:false} }
+      }
+    }
+  });
+
+  /* wool bars */
+  const woolAvg = WOOLS.map(w => ({ name:w, avg: avg(filtered.map(r=>(r.woolData||{})[w]||0)) })).sort((a,b)=>b.avg-a.avg);
+  const maxAvg = woolAvg[0].avg || 1;
+  document.getElementById('wool-bars').innerHTML = woolAvg.map(({name,avg:a}) =>
+    `<div class="wool-bar-row">
+      <span class="wool-name" title="${name}">${name}</span>
+      <div class="wool-bar-bg"><div class="wool-bar-fill" style="width:${Math.round(a/maxAvg*100)}%"></div></div>
+      <span class="wool-val">${a}명</span>
+    </div>`
+  ).join('');
+}
+
+/* ─── Init ─── */
+const today = new Date();
+const pad = n => String(n).padStart(2,'0');
+document.getElementById('input-date').value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+renderWoolInputs();
+load();
+</script>
+</body>
+</html>

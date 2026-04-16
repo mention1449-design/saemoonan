@@ -8,19 +8,19 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 :root {
-  --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeedea;
-  --text: #1a1a18; --text2: #6b6b67; --text3: #a0a09c;
-  --border: rgba(0,0,0,0.09); --border2: rgba(0,0,0,0.18);
-  --teal: #1D9E75; --teal-bg: #E1F5EE; --teal-text: #085041;
-  --purple: #7F77DD; --purple-bg: #EEEDFE; --purple-text: #3C3489;
-  --amber: #BA7517; --amber-bg: #FAEEDA; --amber-text: #633806;
-  --red: #E24B4A; --red-bg: #FCEBEB; --red-text: #A32D2D;
-  --gray-bg: #F1EFE8; --gray-text: #444441;
-  --radius: 12px; --radius-sm: 8px;
-  --nav-h: 58px; --safe-b: env(safe-area-inset-bottom, 0px);
+  --bg:#ffffff; --bg2:#f5f5f3; --bg3:#eeedea;
+  --text:#1a1a18; --text2:#6b6b67; --text3:#a0a09c;
+  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.18);
+  --teal:#1D9E75; --teal-bg:#E1F5EE; --teal-text:#085041;
+  --purple:#7F77DD; --purple-bg:#EEEDFE; --purple-text:#3C3489;
+  --amber:#BA7517; --amber-bg:#FAEEDA; --amber-text:#633806;
+  --red:#E24B4A; --red-bg:#FCEBEB; --red-text:#A32D2D;
+  --gray-bg:#F1EFE8; --gray-text:#444441;
+  --radius:12px; --radius-sm:8px;
+  --nav-h:58px; --safe-b:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark) {
-  :root {
+@media (prefers-color-scheme:dark){
+  :root{
     --bg:#1c1c1a; --bg2:#262624; --bg3:#111110;
     --text:#f0f0ee; --text2:#a0a09c; --text3:#666662;
     --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.17);
@@ -31,152 +31,176 @@
     --gray-bg:#2C2C2A; --gray-text:#D3D1C7;
   }
 }
-html,body { height:100%; background:var(--bg3); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif; font-size:16px; line-height:1.5; overscroll-behavior:none; }
+html,body{height:100%;background:var(--bg3);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;font-size:16px;line-height:1.5;overscroll-behavior:none;}
 
-.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:calc(var(--nav-h) + var(--safe-b)); background:var(--bg); border-top:0.5px solid var(--border); display:flex; z-index:100; }
-.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:none; cursor:pointer; padding-bottom:var(--safe-b); color:var(--text3); font-size:11px; }
-.nav-btn.active { color:var(--teal); }
-.nav-icon svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+/* ── 바텀 탭 ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));background:var(--bg);border-top:0.5px solid var(--border);display:flex;z-index:100;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;cursor:pointer;padding-bottom:var(--safe-b);color:var(--text3);font-size:11px;}
+.nav-btn.active{color:var(--teal);}
+.nav-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nav-dot{position:relative;}
+.nav-dot::after{content:'';position:absolute;top:-1px;right:-4px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid var(--bg);}
 
-.page { display:none; height:100vh; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:calc(var(--nav-h) + var(--safe-b) + 1rem); }
-.page.active { display:block; }
-.page-header { position:sticky; top:0; background:var(--bg); border-bottom:0.5px solid var(--border); padding:14px 16px 12px; z-index:10; display:flex; align-items:center; justify-content:space-between; }
-.page-header-left h1 { font-size:17px; font-weight:600; }
-.page-header-left p { font-size:12px; color:var(--text3); margin-top:1px; }
-.sync-badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; }
-.sync-ok { background:var(--teal-bg); color:var(--teal-text); }
-.sync-ing { background:var(--amber-bg); color:var(--amber-text); }
-.sync-err { background:var(--red-bg); color:var(--red-text); }
+/* ── 페이지 ── */
+.page{display:none;height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h) + var(--safe-b) + 1rem);}
+.page.active{display:block;}
+.page-header{position:sticky;top:0;background:var(--bg);border-bottom:0.5px solid var(--border);padding:14px 16px 12px;z-index:10;display:flex;align-items:center;justify-content:space-between;}
+.page-header-left h1{font-size:17px;font-weight:600;}
+.page-header-left p{font-size:12px;color:var(--text3);margin-top:1px;}
+.sync-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;}
+.sync-ok{background:var(--teal-bg);color:var(--teal-text);}
+.sync-ing{background:var(--amber-bg);color:var(--amber-text);}
+.sync-err{background:var(--red-bg);color:var(--red-text);}
 
-.date-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--bg); border-bottom:0.5px solid var(--border); position:sticky; top:57px; z-index:9; }
-.date-bar label { font-size:12px; color:var(--text2); white-space:nowrap; }
-.date-bar input { flex:1; font-size:15px; padding:7px 12px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:var(--bg2); color:var(--text); outline:none; appearance:none; -webkit-appearance:none; }
-.date-bar input:focus { border-color:var(--teal); }
+/* ── 알림 배너 ── */
+.alert-banner{margin:12px 16px 0;border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;line-height:1.6;}
+.alert-banner.warn{background:var(--amber-bg);color:var(--amber-text);}
+.alert-banner.success{background:var(--teal-bg);color:var(--teal-text);}
+.alert-banner-title{font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.alert-banner-body{font-size:12px;opacity:0.85;}
+.missing-wool-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.missing-chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(0,0,0,0.08);color:inherit;}
 
-.content { padding:14px 16px; }
-.card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:10px; }
-.card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-bottom:10px; border-bottom:0.5px solid var(--border); }
-.card-head-left { display:flex; align-items:center; gap:8px; }
-.cbadge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; }
-.cb-teal { background:var(--teal-bg); color:var(--teal-text); }
-.cb-purple { background:var(--purple-bg); color:var(--purple-text); }
-.cb-amber { background:var(--amber-bg); color:var(--amber-text); }
-.cb-gray { background:var(--gray-bg); color:var(--gray-text); }
-.card-title { font-size:14px; font-weight:600; }
+/* ── 날짜바 ── */
+.date-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg);border-bottom:0.5px solid var(--border);position:sticky;top:57px;z-index:9;}
+.date-bar label{font-size:12px;color:var(--text2);white-space:nowrap;}
+.date-bar input{flex:1;font-size:15px;padding:7px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;appearance:none;-webkit-appearance:none;}
+.date-bar input:focus{border-color:var(--teal);}
 
-.field { margin-bottom:12px; }
-.field:last-child { margin-bottom:0; }
-.field label { display:block; font-size:12px; color:var(--text2); margin-bottom:5px; font-weight:500; }
-input[type=number],input[type=text],select {
-  width:100%; font-size:16px; padding:12px 14px; border-radius:var(--radius-sm);
-  border:0.5px solid var(--border2); background:var(--bg2); color:var(--text);
-  outline:none; appearance:none; -webkit-appearance:none;
-}
-input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(29,158,117,0.1); }
-.big-input { font-size:26px; font-weight:700; text-align:center; padding:16px; }
+/* ── 카드 ── */
+.content{padding:14px 16px;}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.card-head-left{display:flex;align-items:center;gap:8px;}
+.cbadge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;}
+.cb-teal{background:var(--teal-bg);color:var(--teal-text);}
+.cb-purple{background:var(--purple-bg);color:var(--purple-text);}
+.cb-amber{background:var(--amber-bg);color:var(--amber-text);}
+.cb-gray{background:var(--gray-bg);color:var(--gray-text);}
+.cb-red{background:var(--red-bg);color:var(--red-text);}
+.card-title{font-size:14px;font-weight:600;}
 
-.btn-save { width:100%; padding:15px; color:white; border:none; border-radius:var(--radius-sm); font-size:16px; font-weight:600; cursor:pointer; margin-top:4px; }
-.btn-save:active { opacity:0.82; transform:scale(0.99); }
-.btn-teal { background:var(--teal); }
-.btn-purple { background:var(--purple); }
-.btn-amber { background:var(--amber); }
-.btn-ghost { padding:9px 14px; background:none; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:13px; color:var(--text2); cursor:pointer; }
-.btn-danger { padding:9px 14px; background:none; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:13px; color:var(--text3); cursor:pointer; flex-shrink:0; }
-.btn-danger:active { background:var(--red-bg); color:var(--red-text); border-color:var(--red); }
+/* ── 폼 ── */
+.field{margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
+input[type=number],input[type=text],select{width:100%;font-size:16px;padding:12px 14px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;appearance:none;-webkit-appearance:none;}
+input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,158,117,0.1);}
+.big-input{font-size:26px;font-weight:700;text-align:center;padding:16px;}
 
-.toast-wrap { position:fixed; top:16px; left:16px; right:16px; z-index:999; pointer-events:none; }
-.toast { display:none; padding:13px 16px; border-radius:var(--radius-sm); font-size:14px; font-weight:500; text-align:center; }
-.toast.show { display:block; }
-.toast.success { background:var(--teal); color:white; }
-.toast.warn { background:var(--amber); color:white; }
-.toast.deleted { background:var(--red); color:white; }
-.toast.error { background:var(--red); color:white; }
+/* ── 버튼 ── */
+.btn-save{width:100%;padding:15px;color:white;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:600;cursor:pointer;margin-top:4px;}
+.btn-save:active{opacity:0.82;transform:scale(0.99);}
+.btn-teal{background:var(--teal);}
+.btn-purple{background:var(--purple);}
+.btn-amber{background:var(--amber);}
+.btn-ghost{padding:9px 14px;background:none;border:0.5px solid var(--border2);border-radius:var(--radius-sm);font-size:13px;color:var(--text2);cursor:pointer;}
+.btn-icon{padding:7px 10px;background:none;border:0.5px solid var(--border2);border-radius:var(--radius-sm);font-size:12px;color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+.btn-icon:active{background:var(--bg2);}
+.btn-icon.red:active{background:var(--red-bg);color:var(--red-text);border-color:var(--red);}
 
-/* 현황 */
-.prog-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-.prog-label { font-size:12px; color:var(--text2); width:52px; flex-shrink:0; }
-.prog-bg { flex:1; height:8px; background:var(--bg2); border-radius:4px; overflow:hidden; }
-.prog-fill { height:100%; border-radius:4px; transition:width 0.3s; }
-.fill-teal { background:var(--teal); }
-.fill-purple { background:var(--purple); }
-.fill-amber { background:var(--amber); }
-.prog-count { font-size:12px; font-weight:600; min-width:52px; text-align:right; }
-.snums { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:10px; }
-.snum { background:var(--bg2); border-radius:var(--radius-sm); padding:12px 10px; text-align:center; }
-.snum-val { font-size:22px; font-weight:700; line-height:1; margin-bottom:3px; }
-.snum-label { font-size:11px; color:var(--text2); }
-.snum.t .snum-val { color:var(--teal); }
-.snum.p .snum-val { color:var(--purple); }
-.snum.a .snum-val { color:var(--amber); }
-.wool-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:6px; }
-.witem { border-radius:var(--radius-sm); padding:8px 10px; font-size:12px; font-weight:500; text-align:center; }
-.witem-done { background:var(--teal-bg); color:var(--teal-text); }
-.witem-pending { background:var(--bg2); color:var(--text3); border:0.5px dashed var(--border2); }
-.witem-cnt { font-size:11px; margin-top:2px; opacity:0.8; }
+/* ── 토스트 ── */
+.toast-wrap{position:fixed;top:16px;left:16px;right:16px;z-index:999;pointer-events:none;}
+.toast{display:none;padding:13px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;text-align:center;}
+.toast.show{display:block;}
+.toast.success{background:var(--teal);color:white;}
+.toast.warn{background:var(--amber);color:white;}
+.toast.deleted{background:var(--red);color:white;}
+.toast.error{background:var(--red);color:white;}
+.toast.celebrate{background:var(--teal);color:white;font-size:15px;}
 
-/* 목록 */
-.filter-row { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
-.filter-row input[type=month] { flex:1; font-size:15px; padding:8px 12px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:var(--bg2); color:var(--text); outline:none; appearance:none; }
-.log-card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); margin-bottom:8px; overflow:hidden; }
-.log-card-hd { display:flex; align-items:center; justify-content:space-between; padding:13px 16px; cursor:pointer; }
-.log-card-date { font-size:14px; font-weight:600; }
-.log-chips { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
-.lchip { font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; }
-.lc-t { background:var(--teal-bg); color:var(--teal-text); }
-.lc-p { background:var(--purple-bg); color:var(--purple-text); }
-.lc-a { background:var(--amber-bg); color:var(--amber-text); }
-.lc-g { background:var(--gray-bg); color:var(--gray-text); }
-.log-card-bd { display:none; border-top:0.5px solid var(--border); padding:14px 16px; }
-.log-card-bd.open { display:block; }
-.wool-detail-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
-.wool-detail-row:last-child { border-bottom:none; }
-.mini-label { font-size:11px; font-weight:600; color:var(--text2); margin:10px 0 6px; }
-.del-row { display:flex; justify-content:flex-end; margin-top:12px; padding-top:10px; border-top:0.5px solid var(--border); }
+/* ── 현황 ── */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.prog-label{font-size:12px;color:var(--text2);width:52px;flex-shrink:0;}
+.prog-bg{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width 0.4s;}
+.fill-teal{background:var(--teal);}
+.fill-purple{background:var(--purple);}
+.fill-amber{background:var(--amber);}
+.prog-count{font-size:12px;font-weight:600;min-width:52px;text-align:right;}
+.snums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.snum{background:var(--bg2);border-radius:var(--radius-sm);padding:12px 10px;text-align:center;}
+.snum-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
+.snum-label{font-size:11px;color:var(--text2);}
+.snum.t .snum-val{color:var(--teal);}
+.snum.p .snum-val{color:var(--purple);}
+.snum.a .snum-val{color:var(--amber);}
+.wool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;}
+.witem{border-radius:var(--radius-sm);padding:8px 10px;font-size:12px;font-weight:500;text-align:center;}
+.witem-done{background:var(--teal-bg);color:var(--teal-text);}
+.witem-pending{background:var(--bg2);color:var(--text3);border:0.5px dashed var(--border2);}
+.witem-cnt{font-size:11px;margin-top:2px;opacity:0.8;}
 
-/* 대시보드 */
-.pchips { display:flex; gap:6px; overflow-x:auto; padding-bottom:2px; margin-bottom:14px; scrollbar-width:none; }
-.pchips::-webkit-scrollbar { display:none; }
-.pchip { flex-shrink:0; padding:7px 14px; border-radius:999px; border:0.5px solid var(--border2); background:var(--bg2); font-size:13px; color:var(--text2); cursor:pointer; }
-.pchip.active { background:var(--teal); border-color:var(--teal); color:white; font-weight:600; }
-.mrow { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px; scrollbar-width:none; }
-.mrow::-webkit-scrollbar { display:none; }
-.metric { flex-shrink:0; min-width:120px; background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:13px 14px; }
-.m-label { font-size:11px; color:var(--text2); margin-bottom:4px; }
-.m-val { font-size:22px; font-weight:700; line-height:1; margin-bottom:3px; }
-.m-sub { font-size:11px; color:var(--text3); }
-.m-up { font-size:11px; color:var(--teal); margin-top:2px; }
-.m-down { font-size:11px; color:var(--red); margin-top:2px; }
-.chart-card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:10px; }
-.chart-label { font-size:14px; font-weight:600; margin-bottom:2px; }
-.chart-sub { font-size:11px; color:var(--text3); margin-bottom:12px; }
-.legend { display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
-.legend-item { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text2); }
-.legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
-.wbar-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-.wbar-name { font-size:12px; color:var(--text2); width:72px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.wbar-bg { flex:1; background:var(--bg2); border-radius:4px; height:10px; overflow:hidden; }
-.wbar-fill { height:100%; border-radius:4px; background:var(--amber); }
-.wbar-num { font-size:12px; font-weight:600; min-width:34px; text-align:right; }
+/* ── 울 입력 완료 목록 ── */
+.wool-done-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;}
+.wool-done-item:last-child{border-bottom:none;}
+.wool-done-left{display:flex;align-items:center;gap:8px;}
+.wool-done-actions{display:flex;gap:6px;}
 
-.modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:300; align-items:flex-end; justify-content:center; }
-.modal-bg.open { display:flex; }
-.sheet { background:var(--bg); border-radius:20px 20px 0 0; padding:8px 20px calc(20px + var(--safe-b)); width:100%; max-width:520px; max-height:88vh; overflow-y:auto; }
-.sheet-handle { width:36px; height:4px; background:var(--border2); border-radius:2px; margin:4px auto 16px; }
-.sheet-title { font-size:17px; font-weight:600; margin-bottom:6px; }
-.sheet-sub { font-size:13px; color:var(--text2); margin-bottom:20px; line-height:1.5; }
-.sheet-btns { display:flex; gap:10px; margin-top:8px; }
-.sh-cancel { flex:1; padding:14px; background:var(--bg2); border:none; border-radius:var(--radius-sm); font-size:15px; color:var(--text2); cursor:pointer; font-weight:500; }
-.sh-del { flex:1; padding:14px; background:var(--red); border:none; border-radius:var(--radius-sm); font-size:15px; color:white; cursor:pointer; font-weight:600; }
-.empty { text-align:center; padding:48px 16px; color:var(--text3); font-size:14px; }
-.wool-done-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
-.wool-done-item:last-child { border-bottom:none; }
+/* ── 목록 ── */
+.filter-row{display:flex;gap:8px;align-items:center;margin-bottom:12px;}
+.filter-row input[type=month]{flex:1;font-size:15px;padding:8px 12px;border-radius:var(--radius-sm);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);outline:none;appearance:none;}
+.log-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;}
+.log-card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;}
+.log-card-date{font-size:14px;font-weight:600;}
+.log-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.lchip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;}
+.lc-t{background:var(--teal-bg);color:var(--teal-text);}
+.lc-p{background:var(--purple-bg);color:var(--purple-text);}
+.lc-a{background:var(--amber-bg);color:var(--amber-text);}
+.lc-g{background:var(--gray-bg);color:var(--gray-text);}
+.log-card-bd{display:none;border-top:0.5px solid var(--border);padding:14px 16px;}
+.log-card-bd.open{display:block;}
+.wool-detail-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:13px;gap:8px;}
+.wool-detail-row:last-child{border-bottom:none;}
+.wool-detail-actions{display:flex;gap:5px;flex-shrink:0;}
+.mini-label{font-size:11px;font-weight:600;color:var(--text2);margin:10px 0 6px;}
+.del-row{display:flex;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:0.5px solid var(--border);}
+
+/* ── 대시보드 ── */
+.pchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:14px;scrollbar-width:none;}
+.pchips::-webkit-scrollbar{display:none;}
+.pchip{flex-shrink:0;padding:7px 14px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);font-size:13px;color:var(--text2);cursor:pointer;}
+.pchip.active{background:var(--teal);border-color:var(--teal);color:white;font-weight:600;}
+.mrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none;}
+.mrow::-webkit-scrollbar{display:none;}
+.metric{flex-shrink:0;min-width:120px;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:13px 14px;}
+.m-label{font-size:11px;color:var(--text2);margin-bottom:4px;}
+.m-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
+.m-sub{font-size:11px;color:var(--text3);}
+.m-up{font-size:11px;color:var(--teal);margin-top:2px;}
+.m-down{font-size:11px;color:var(--red);margin-top:2px;}
+.chart-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.chart-label{font-size:14px;font-weight:600;margin-bottom:2px;}
+.chart-sub{font-size:11px;color:var(--text3);margin-bottom:12px;}
+.legend{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.wbar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.wbar-name{font-size:12px;color:var(--text2);width:72px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.wbar-bg{flex:1;background:var(--bg2);border-radius:4px;height:10px;overflow:hidden;}
+.wbar-fill{height:100%;border-radius:4px;background:var(--amber);}
+.wbar-num{font-size:12px;font-weight:600;min-width:34px;text-align:right;}
+
+/* ── 시트 ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;justify-content:center;}
+.modal-bg.open{display:flex;}
+.sheet{background:var(--bg);border-radius:20px 20px 0 0;padding:8px 20px calc(20px + var(--safe-b));width:100%;max-width:520px;max-height:88vh;overflow-y:auto;}
+.sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:4px auto 16px;}
+.sheet-title{font-size:17px;font-weight:600;margin-bottom:6px;}
+.sheet-sub{font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5;}
+.sheet-btns{display:flex;gap:10px;margin-top:8px;}
+.sh-cancel{flex:1;padding:14px;background:var(--bg2);border:none;border-radius:var(--radius-sm);font-size:15px;color:var(--text2);cursor:pointer;font-weight:500;}
+.sh-del{flex:1;padding:14px;background:var(--red);border:none;border-radius:var(--radius-sm);font-size:15px;color:white;cursor:pointer;font-weight:600;}
+.sh-save{flex:1;padding:14px;background:var(--teal);border:none;border-radius:var(--radius-sm);font-size:15px;color:white;cursor:pointer;font-weight:600;}
+.empty{text-align:center;padding:48px 16px;color:var(--text3);font-size:14px;}
 </style>
 </head>
 <body>
 
 <div class="toast-wrap"><div id="toast" class="toast"></div></div>
 
-<!-- 현황 -->
+<!-- ── 현황 ── -->
 <div id="page-home" class="page active">
   <div class="page-header">
     <div class="page-header-left">
@@ -189,6 +213,7 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
     <label>기준 날짜</label>
     <input type="date" id="home-date" onchange="onDateChange()" />
   </div>
+  <div id="home-alert"></div>
   <div class="content">
     <div class="card">
       <div class="card-head">
@@ -230,7 +255,7 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   </div>
 </div>
 
-<!-- 입력 -->
+<!-- ── 입력 ── -->
 <div id="page-input" class="page">
   <div class="page-header">
     <div class="page-header-left">
@@ -246,10 +271,7 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   <div class="content">
     <div class="card">
       <div class="card-head">
-        <div class="card-head-left">
-          <span class="cbadge cb-teal">임원단</span>
-          <span class="card-title">예배 참석 인원</span>
-        </div>
+        <div class="card-head-left"><span class="cbadge cb-teal">임원단</span><span class="card-title">예배 참석 인원</span></div>
         <span class="cbadge cb-gray" id="worship-saved-badge" style="display:none">저장됨</span>
       </div>
       <div class="field" style="margin-bottom:14px">
@@ -258,13 +280,9 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
       </div>
       <button class="btn-save btn-teal" onclick="saveWorship()">예배 인원 저장</button>
     </div>
-
     <div class="card">
       <div class="card-head">
-        <div class="card-head-left">
-          <span class="cbadge cb-purple">임원단</span>
-          <span class="card-title">집회 참석 인원</span>
-        </div>
+        <div class="card-head-left"><span class="cbadge cb-purple">임원단</span><span class="card-title">집회 참석 인원</span></div>
         <span class="cbadge cb-gray" id="meeting-saved-badge" style="display:none">저장됨</span>
       </div>
       <div class="field" style="margin-bottom:14px">
@@ -273,13 +291,9 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
       </div>
       <button class="btn-save btn-purple" onclick="saveMeeting()">집회 인원 저장</button>
     </div>
-
     <div class="card">
       <div class="card-head">
-        <div class="card-head-left">
-          <span class="cbadge cb-amber">리더</span>
-          <span class="card-title">울모임 참석 인원</span>
-        </div>
+        <div class="card-head-left"><span class="cbadge cb-amber">리더</span><span class="card-title">울모임 참석 인원</span></div>
       </div>
       <div class="field">
         <label>내 울 선택</label>
@@ -303,13 +317,10 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   </div>
 </div>
 
-<!-- 목록 -->
+<!-- ── 목록 ── -->
 <div id="page-list" class="page">
   <div class="page-header">
-    <div class="page-header-left">
-      <h1>기록 목록</h1>
-      <p id="list-count"></p>
-    </div>
+    <div class="page-header-left"><h1>기록 목록</h1><p id="list-count"></p></div>
   </div>
   <div class="content">
     <div class="filter-row">
@@ -320,13 +331,10 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   </div>
 </div>
 
-<!-- 대시보드 -->
+<!-- ── 대시보드 ── -->
 <div id="page-dash" class="page">
   <div class="page-header">
-    <div class="page-header-left">
-      <h1>대시보드</h1>
-      <p id="dash-period-label"></p>
-    </div>
+    <div class="page-header-left"><h1>대시보드</h1><p id="dash-period-label"></p></div>
   </div>
   <div class="content">
     <div class="pchips">
@@ -346,7 +354,7 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
         <span class="legend-item"><span class="legend-dot" style="background:#BA7517"></span>울모임</span>
       </div>
       <div style="position:relative;width:100%;height:220px">
-        <canvas id="trendChart" role="img" aria-label="주차별 예배·집회·울모임 추이"></canvas>
+        <canvas id="trendChart" role="img" aria-label="주차별 추이"></canvas>
       </div>
     </div>
     <div class="chart-card">
@@ -359,7 +367,7 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
 
 <nav class="bottom-nav">
   <button class="nav-btn active" id="nav-home" onclick="switchPage('home')">
-    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span>
+    <span class="nav-icon" id="nav-home-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span>
     현황
   </button>
   <button class="nav-btn" id="nav-input" onclick="switchPage('input')">
@@ -376,10 +384,11 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   </button>
 </nav>
 
+<!-- 삭제 확인 시트 -->
 <div id="confirm-sheet" class="modal-bg" onclick="if(event.target===this)closeSheet('confirm-sheet')">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">기록을 삭제할까요?</div>
+    <div class="sheet-title" id="confirm-title">삭제할까요?</div>
     <div class="sheet-sub" id="confirm-desc"></div>
     <div class="sheet-btns">
       <button class="sh-cancel" onclick="closeSheet('confirm-sheet')">취소</button>
@@ -388,29 +397,47 @@ input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(2
   </div>
 </div>
 
+<!-- 울 수정 시트 -->
+<div id="edit-sheet" class="modal-bg" onclick="if(event.target===this)closeSheet('edit-sheet')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="edit-sheet-title">울 수정</div>
+    <div class="sheet-sub" id="edit-sheet-sub"></div>
+    <div class="field">
+      <label>참석 인원 수</label>
+      <input type="number" id="edit-wool-count" class="big-input" placeholder="0" min="0" inputmode="numeric" />
+    </div>
+    <div class="field" style="margin-bottom:16px">
+      <label>기록자 이름</label>
+      <input type="text" id="edit-wool-recorder" placeholder="리더 이름" />
+    </div>
+    <div class="sheet-btns">
+      <button class="sh-cancel" onclick="closeSheet('edit-sheet')">취소</button>
+      <button class="sh-save" onclick="confirmEditWool()">수정 저장</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://xzjpkhrzzmkolupldhff.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6anBraHJ6em1rb2x1cGxkaGZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDExOTcsImV4cCI6MjA5MTg3NzE5N30.baK_Jc5LpP0Emew2u3wmdLLoMSIWk4ECKib9bgjLlco';
-const API = `${SUPABASE_URL}/rest/v1/attendance`;
-const HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
-
+const HEADERS = {'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':'return=representation'};
 const WOOLS = ['새가족반','김보연울','이수인울','손동호울','김지인울','주지은울','최민정울','정충만울','배주희울','이승주울','이련경울','양승연울','이승은울'];
 
 let db = {};
 let chipN = 8;
-let pendingDeleteDate = null;
+let pendingDelete = null;
+let pendingEdit = null;
 let trendChart = null;
 let pollingTimer = null;
+let prevWoolDoneCnt = {};
 
-/* ── Supabase API ── */
+/* ── Supabase ── */
 async function sbFetch(path, method='GET', body=null) {
-  const opts = { method, headers: { ...HEADERS } };
+  const opts = {method, headers:{...HEADERS}};
   if (body) opts.body = JSON.stringify(body);
   const res = await fetch(SUPABASE_URL + path, opts);
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err);
-  }
+  if (!res.ok) throw new Error(await res.text());
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
@@ -420,28 +447,22 @@ async function loadAll() {
   try {
     const rows = await sbFetch('/rest/v1/attendance?select=*&order=date.desc');
     db = {};
-    (rows || []).forEach(r => { db[r.date] = r; });
+    (rows||[]).forEach(r => { db[r.date] = r; });
     setSyncBadge('ok');
-    renderHome();
-    renderList();
-    renderDash();
-    renderInputSavedState();
+    renderAll();
   } catch(e) {
     setSyncBadge('err');
-    showToast('서버 연결 실패. 잠시 후 다시 시도해주세요.', 'error');
   }
 }
 
 async function upsertRecord(date, patch) {
-  const existing = db[date];
-  if (existing) {
-    const updated = { ...existing, ...patch, updated_at: new Date().toISOString() };
-    const rows = await sbFetch(`/rest/v1/attendance?date=eq.${date}`, 'PATCH', patch);
-    db[date] = { ...existing, ...patch };
+  if (db[date]) {
+    await sbFetch(`/rest/v1/attendance?date=eq.${date}`, 'PATCH', patch);
+    db[date] = {...db[date], ...patch};
   } else {
-    const newRow = { date, worship: null, meeting: null, wools: {}, ...patch };
-    const rows = await sbFetch('/rest/v1/attendance', 'POST', newRow);
-    db[date] = Array.isArray(rows) ? rows[0] : newRow;
+    const row = {date, worship:null, meeting:null, wools:{}, ...patch};
+    const rows = await sbFetch('/rest/v1/attendance', 'POST', row);
+    db[date] = Array.isArray(rows) ? rows[0] : row;
   }
 }
 
@@ -450,15 +471,14 @@ async function deleteRecord(date) {
   delete db[date];
 }
 
-/* ── 동기화 배지 ── */
-function setSyncBadge(state) {
-  const labels = { ok:'연결됨', ing:'동기화 중...', err:'연결 오류' };
-  const cls = { ok:'sync-ok', ing:'sync-ing', err:'sync-err' };
-  ['sync-badge','sync-badge2'].forEach(id => {
+/* ── 배지 ── */
+function setSyncBadge(s) {
+  const map = {ok:['연결됨','sync-ok'],ing:['동기화 중...','sync-ing'],err:['연결 오류','sync-err']};
+  ['sync-badge','sync-badge2'].forEach(id=>{
     const el = document.getElementById(id);
     if (!el) return;
-    el.textContent = labels[state];
-    el.className = `sync-badge ${cls[state]}`;
+    el.textContent = map[s][0];
+    el.className = `sync-badge ${map[s][1]}`;
   });
 }
 
@@ -467,70 +487,111 @@ function todayStr() {
   const d = new Date();
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
 }
-function p(n) { return String(n).padStart(2,'0'); }
+function p(n){return String(n).padStart(2,'0');}
 function fmtDate(s) {
   const d = new Date(s+'T00:00:00');
-  const days = ['일','월','화','수','목','금','토'];
-  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${['일','월','화','수','목','금','토'][d.getDay()]})`;
 }
+function getDate(){return document.getElementById('home-date').value||todayStr();}
 
 function onDateChange() {
-  const hv = document.getElementById('home-date').value;
-  const iv = document.getElementById('input-date').value;
-  const val = hv !== iv ? (event.target.id === 'home-date' ? hv : iv) : hv;
+  const src = event.target.id;
+  const val = document.getElementById(src).value;
   document.getElementById('home-date').value = val;
   document.getElementById('input-date').value = val;
   renderHome();
   renderInputSavedState();
 }
 
-function getDate() {
-  return document.getElementById('home-date').value || todayStr();
+/* ── 알림 배너 ── */
+function renderAlertBanner() {
+  const date = getDate();
+  const rec = db[date]||{worship:null,meeting:null,wools:{}};
+  const wools = rec.wools||{};
+  const doneCnt = WOOLS.filter(w=>wools[w]!=null).length;
+  const missing = WOOLS.filter(w=>wools[w]==null);
+  const el = document.getElementById('home-alert');
+
+  if (doneCnt === 13) {
+    el.innerHTML = `<div class="alert-banner success">
+      <div class="alert-banner-title">수합 완료!</div>
+      <div class="alert-banner-body">13개 울 모두 입력됐습니다. 수고하셨습니다.</div>
+    </div>`;
+  } else if (doneCnt > 0) {
+    el.innerHTML = `<div class="alert-banner warn">
+      <div class="alert-banner-title">미입력 울이 있습니다 (${missing.length}개)</div>
+      <div class="missing-wool-list">${missing.map(w=>`<span class="missing-chip">${w}</span>`).join('')}</div>
+    </div>`;
+  } else {
+    el.innerHTML = '';
+  }
+
+  const navIcon = document.getElementById('nav-home-icon');
+  if (doneCnt > 0 && doneCnt < 13) {
+    navIcon.classList.add('nav-dot');
+  } else {
+    navIcon.classList.remove('nav-dot');
+  }
 }
 
-/* ── 울 선택 초기화 ── */
+/* ── 완료 축하 알림 ── */
+function checkCelebrate(date) {
+  const wools = db[date]?.wools||{};
+  const doneCnt = WOOLS.filter(w=>wools[w]!=null).length;
+  const prev = prevWoolDoneCnt[date]||0;
+  if (prev < 13 && doneCnt === 13) {
+    setTimeout(()=>showToast('🎉 13개 울 모두 입력 완료!','celebrate'), 300);
+  }
+  prevWoolDoneCnt[date] = doneCnt;
+}
+
+/* ── 울 선택 ── */
 function initWoolSelect() {
-  const sel = document.getElementById('wool-select');
-  sel.innerHTML = '<option value="">— 울을 선택하세요 —</option>' +
-    WOOLS.map(w => `<option value="${w}">${w}</option>`).join('');
+  document.getElementById('wool-select').innerHTML =
+    '<option value="">— 울을 선택하세요 —</option>' +
+    WOOLS.map(w=>`<option value="${w}">${w}</option>`).join('');
 }
 
 function onWoolSelect() {
   const w = document.getElementById('wool-select').value;
   const area = document.getElementById('wool-input-area');
   if (!w) { area.style.display='none'; return; }
-  area.style.display = 'block';
+  area.style.display='block';
   document.getElementById('wool-input-label').textContent = `${w} 참석 인원`;
-  const date = getDate();
-  const wools = db[date]?.wools || {};
-  document.getElementById('wool-count').value = wools[w]?.count ?? '';
-  document.getElementById('wool-recorder').value = wools[w]?.recorder ?? '';
+  const wools = db[getDate()]?.wools||{};
+  document.getElementById('wool-count').value = wools[w]?.count??'';
+  document.getElementById('wool-recorder').value = wools[w]?.recorder??'';
   renderWoolDoneList();
 }
 
-/* ── 저장됨 상태 표시 ── */
+/* ── 저장됨 상태 ── */
 function renderInputSavedState() {
-  const date = getDate();
-  const rec = db[date];
+  const rec = db[getDate()];
   const wb = document.getElementById('worship-saved-badge');
   const mb = document.getElementById('meeting-saved-badge');
-  if (rec?.worship != null) { wb.style.display='inline-flex'; document.getElementById('worship-count').value = rec.worship; }
-  else { wb.style.display='none'; document.getElementById('worship-count').value=''; }
-  if (rec?.meeting != null) { mb.style.display='inline-flex'; document.getElementById('meeting-count').value = rec.meeting; }
-  else { mb.style.display='none'; document.getElementById('meeting-count').value=''; }
+  if (rec?.worship!=null){wb.style.display='inline-flex';document.getElementById('worship-count').value=rec.worship;}
+  else{wb.style.display='none';document.getElementById('worship-count').value='';}
+  if (rec?.meeting!=null){mb.style.display='inline-flex';document.getElementById('meeting-count').value=rec.meeting;}
+  else{mb.style.display='none';document.getElementById('meeting-count').value='';}
   renderWoolDoneList();
 }
 
 function renderWoolDoneList() {
-  const date = getDate();
-  const wools = db[date]?.wools || {};
-  const done = WOOLS.filter(w => wools[w] != null);
+  const wools = db[getDate()]?.wools||{};
+  const done = WOOLS.filter(w=>wools[w]!=null);
   const el = document.getElementById('wool-done-list');
-  if (!done.length) { el.innerHTML=''; return; }
+  if (!done.length){el.innerHTML='';return;}
   el.innerHTML = `<div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px">입력 완료 (${done.length}/13)</div>` +
-    done.map(w => `<div class="wool-done-item">
-      <span style="background:var(--teal-bg);color:var(--teal-text);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600">${w}</span>
-      <span style="font-weight:600">${wools[w].count}명 <span style="font-size:11px;color:var(--text3);font-weight:400">${wools[w].recorder}</span></span>
+    done.map(w=>`<div class="wool-done-item">
+      <div class="wool-done-left">
+        <span style="background:var(--teal-bg);color:var(--teal-text);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600">${w}</span>
+        <span style="font-weight:600;font-size:13px">${wools[w].count}명</span>
+        <span style="font-size:11px;color:var(--text3)">${wools[w].recorder}</span>
+      </div>
+      <div class="wool-done-actions">
+        <button class="btn-icon" onclick="openEditWool('${getDate()}','${w}','input')">수정</button>
+        <button class="btn-icon red" onclick="requestDeleteWool('${getDate()}','${w}')">삭제</button>
+      </div>
     </div>`).join('');
 }
 
@@ -538,104 +599,176 @@ function renderWoolDoneList() {
 async function saveWorship() {
   const date = getDate();
   const count = parseInt(document.getElementById('worship-count').value);
-  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
+  if (isNaN(count)||count<0){showToast('인원 수를 입력하세요','warn');return;}
   setSyncBadge('ing');
   try {
-    await upsertRecord(date, { worship: count });
-    showToast(`예배 ${count}명 저장됨`, 'success');
+    await upsertRecord(date,{worship:count});
+    showToast(`예배 ${count}명 저장됨`,'success');
     document.getElementById('worship-saved-badge').style.display='inline-flex';
-    setSyncBadge('ok');
-    renderHome(); renderList(); renderDash();
-  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
+    setSyncBadge('ok'); renderAll();
+  } catch(e){setSyncBadge('err');showToast('저장 실패','error');}
 }
 
 async function saveMeeting() {
   const date = getDate();
   const count = parseInt(document.getElementById('meeting-count').value);
-  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
+  if (isNaN(count)||count<0){showToast('인원 수를 입력하세요','warn');return;}
   setSyncBadge('ing');
   try {
-    await upsertRecord(date, { meeting: count });
-    showToast(`집회 ${count}명 저장됨`, 'success');
+    await upsertRecord(date,{meeting:count});
+    showToast(`집회 ${count}명 저장됨`,'success');
     document.getElementById('meeting-saved-badge').style.display='inline-flex';
-    setSyncBadge('ok');
-    renderHome(); renderList(); renderDash();
-  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
+    setSyncBadge('ok'); renderAll();
+  } catch(e){setSyncBadge('err');showToast('저장 실패','error');}
 }
 
 async function saveWool() {
   const date = getDate();
   const wool = document.getElementById('wool-select').value;
-  if (!wool) { showToast('울을 선택하세요','warn'); return; }
+  if (!wool){showToast('울을 선택하세요','warn');return;}
   const count = parseInt(document.getElementById('wool-count').value);
-  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
-  const recorder = document.getElementById('wool-recorder').value.trim() || '미기재';
-  const existing = db[date]?.wools || {};
-  const newWools = { ...existing, [wool]: { count, recorder, savedAt: new Date().toISOString() } };
+  if (isNaN(count)||count<0){showToast('인원 수를 입력하세요','warn');return;}
+  const recorder = document.getElementById('wool-recorder').value.trim()||'미기재';
+  const existing = db[date]?.wools||{};
+  const newWools = {...existing,[wool]:{count,recorder,savedAt:new Date().toISOString()}};
   setSyncBadge('ing');
   try {
-    await upsertRecord(date, { wools: newWools });
-    showToast(`${wool} ${count}명 저장됨`, 'success');
+    await upsertRecord(date,{wools:newWools});
+    showToast(`${wool} ${count}명 저장됨`,'success');
     document.getElementById('wool-count').value='';
     document.getElementById('wool-recorder').value='';
     document.getElementById('wool-select').value='';
     document.getElementById('wool-input-area').style.display='none';
-    setSyncBadge('ok');
-    renderWoolDoneList();
-    renderHome(); renderList(); renderDash();
-  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
+    checkCelebrate(date);
+    setSyncBadge('ok'); renderAll();
+  } catch(e){setSyncBadge('err');showToast('저장 실패','error');}
 }
 
-/* ── 홈 현황 ── */
+/* ── 울 수정 ── */
+function openEditWool(date, wool, from) {
+  pendingEdit = {date, wool, from};
+  const wools = db[date]?.wools||{};
+  document.getElementById('edit-sheet-title').textContent = `${wool} 수정`;
+  document.getElementById('edit-sheet-sub').textContent = fmtDate(date);
+  document.getElementById('edit-wool-count').value = wools[wool]?.count??'';
+  document.getElementById('edit-wool-recorder').value = wools[wool]?.recorder??'';
+  openSheet('edit-sheet');
+}
+
+async function confirmEditWool() {
+  if (!pendingEdit) return;
+  const {date, wool} = pendingEdit;
+  const count = parseInt(document.getElementById('edit-wool-count').value);
+  if (isNaN(count)||count<0){showToast('인원 수를 입력하세요','warn');return;}
+  const recorder = document.getElementById('edit-wool-recorder').value.trim()||'미기재';
+  const existing = db[date]?.wools||{};
+  const newWools = {...existing,[wool]:{count,recorder,savedAt:new Date().toISOString()}};
+  setSyncBadge('ing');
+  try {
+    await upsertRecord(date,{wools:newWools});
+    closeSheet('edit-sheet');
+    showToast(`${wool} 수정됨`,'success');
+    pendingEdit = null;
+    setSyncBadge('ok'); renderAll();
+  } catch(e){setSyncBadge('err');showToast('수정 실패','error');}
+}
+
+/* ── 삭제 ── */
+function requestDeleteWool(date, wool) {
+  pendingDelete = {type:'wool', date, wool};
+  document.getElementById('confirm-title').textContent = '울 기록을 삭제할까요?';
+  document.getElementById('confirm-desc').textContent = `${fmtDate(date)}\n${wool} 참석 기록을 삭제합니다. 복구할 수 없습니다.`;
+  openSheet('confirm-sheet');
+}
+
+function requestDeleteDate(date) {
+  pendingDelete = {type:'date', date};
+  document.getElementById('confirm-title').textContent = '이 날짜 기록을 삭제할까요?';
+  document.getElementById('confirm-desc').textContent = `${fmtDate(date)} 전체 기록(예배·집회·울모임)을 삭제합니다. 복구할 수 없습니다.`;
+  openSheet('confirm-sheet');
+}
+
+async function confirmDelete() {
+  if (!pendingDelete) return;
+  setSyncBadge('ing');
+  try {
+    if (pendingDelete.type === 'date') {
+      await deleteRecord(pendingDelete.date);
+      showToast('삭제되었습니다','deleted');
+    } else {
+      const {date, wool} = pendingDelete;
+      const existing = {...(db[date]?.wools||{})};
+      delete existing[wool];
+      await upsertRecord(date,{wools:existing});
+      showToast(`${wool} 기록 삭제됨`,'deleted');
+    }
+    pendingDelete = null;
+    closeSheet('confirm-sheet');
+    setSyncBadge('ok'); renderAll();
+  } catch(e){setSyncBadge('err');showToast('삭제 실패','error');}
+}
+
+/* ── 렌더 ── */
+function renderAll() {
+  renderHome();
+  renderList();
+  renderDash();
+  renderInputSavedState();
+  renderWoolDoneList();
+}
+
 function renderHome() {
   const date = getDate();
-  document.getElementById('home-date-label').textContent = date ? fmtDate(date) : '';
-  const rec = db[date] || { worship:null, meeting:null, wools:{} };
-  const wools = rec.wools || {};
-  const doneCnt = WOOLS.filter(w => wools[w]!=null).length;
+  document.getElementById('home-date-label').textContent = date?fmtDate(date):'';
+  const rec = db[date]||{worship:null,meeting:null,wools:{}};
+  const wools = rec.wools||{};
+  const doneCnt = WOOLS.filter(w=>wools[w]!=null).length;
   const woolTotal = WOOLS.reduce((s,w)=>s+(wools[w]?.count||0),0);
-  const wDone = rec.worship!=null, mDone = rec.meeting!=null;
-  document.getElementById('prog-worship').style.width = wDone?'100%':'0%';
-  document.getElementById('prog-worship-label').textContent = wDone?`${rec.worship}명`:'미입력';
-  document.getElementById('prog-meeting').style.width = mDone?'100%':'0%';
-  document.getElementById('prog-meeting-label').textContent = mDone?`${rec.meeting}명`:'미입력';
-  document.getElementById('prog-wool').style.width = `${Math.round(doneCnt/13*100)}%`;
-  document.getElementById('prog-wool-label').textContent = `${doneCnt} / 13`;
-  const total = (wDone?1:0)+(mDone?1:0)+(doneCnt===13?1:0);
-  document.getElementById('home-status-title').textContent = ['입력 대기 중','일부 입력됨','일부 입력됨','수합 완료'][total];
-  document.getElementById('home-worship').textContent = wDone?rec.worship:'—';
-  document.getElementById('home-meeting').textContent = mDone?rec.meeting:'—';
-  document.getElementById('home-wool').textContent = doneCnt>0?woolTotal:'—';
-  document.getElementById('wool-status-grid').innerHTML = WOOLS.map(w => {
-    const done = wools[w]!=null;
+  const wDone=rec.worship!=null, mDone=rec.meeting!=null;
+  document.getElementById('prog-worship').style.width=wDone?'100%':'0%';
+  document.getElementById('prog-worship-label').textContent=wDone?`${rec.worship}명`:'미입력';
+  document.getElementById('prog-meeting').style.width=mDone?'100%':'0%';
+  document.getElementById('prog-meeting-label').textContent=mDone?`${rec.meeting}명`:'미입력';
+  document.getElementById('prog-wool').style.width=`${Math.round(doneCnt/13*100)}%`;
+  document.getElementById('prog-wool-label').textContent=`${doneCnt} / 13`;
+  document.getElementById('home-status-title').textContent=['입력 대기 중','일부 입력됨','일부 입력됨','수합 완료'][(wDone?1:0)+(mDone?1:0)+(doneCnt===13?1:0)];
+  document.getElementById('home-worship').textContent=wDone?rec.worship:'—';
+  document.getElementById('home-meeting').textContent=mDone?rec.meeting:'—';
+  document.getElementById('home-wool').textContent=doneCnt>0?woolTotal:'—';
+  document.getElementById('wool-status-grid').innerHTML=WOOLS.map(w=>{
+    const done=wools[w]!=null;
     return `<div class="witem ${done?'witem-done':'witem-pending'}">
       <div>${w}</div>
       <div class="witem-cnt">${done?wools[w].count+'명':'미입력'}</div>
     </div>`;
   }).join('');
+  renderAlertBanner();
 }
 
-/* ── 목록 ── */
 function renderList() {
   const fm = document.getElementById('filter-month').value;
   const all = Object.values(db).sort((a,b)=>b.date.localeCompare(a.date));
-  const filtered = fm ? all.filter(r=>r.date.startsWith(fm)) : all;
-  document.getElementById('list-count').textContent = `${filtered.length}개의 기록`;
+  const filtered = fm?all.filter(r=>r.date.startsWith(fm)):all;
+  document.getElementById('list-count').textContent=`${filtered.length}개의 기록`;
   const container = document.getElementById('log-list');
-  if (!filtered.length) { container.innerHTML='<div class="empty">기록이 없습니다</div>'; return; }
-  container.innerHTML = filtered.map(r => {
-    const wools = r.wools||{};
-    const doneCnt = WOOLS.filter(w=>wools[w]!=null).length;
-    const woolTotal = WOOLS.reduce((s,w)=>s+(wools[w]?.count||0),0);
-    const chips = [
+  if (!filtered.length){container.innerHTML='<div class="empty">기록이 없습니다</div>';return;}
+  container.innerHTML=filtered.map(r=>{
+    const wools=r.wools||{};
+    const doneCnt=WOOLS.filter(w=>wools[w]!=null).length;
+    const woolTotal=WOOLS.reduce((s,w)=>s+(wools[w]?.count||0),0);
+    const chips=[
       r.worship!=null?`<span class="lchip lc-t">예배 ${r.worship}명</span>`:`<span class="lchip lc-g">예배 미입력</span>`,
       r.meeting!=null?`<span class="lchip lc-p">집회 ${r.meeting}명</span>`:`<span class="lchip lc-g">집회 미입력</span>`,
       doneCnt>0?`<span class="lchip lc-a">울모임 ${woolTotal}명 (${doneCnt}/13)</span>`:`<span class="lchip lc-g">울모임 미입력</span>`
     ].join('');
-    const woolRows = WOOLS.filter(w=>wools[w]).map(w=>
+    const woolRows=WOOLS.filter(w=>wools[w]).map(w=>
       `<div class="wool-detail-row">
-        <span style="color:var(--text2)">${w}</span>
-        <span>${wools[w].count}명 <span style="font-size:11px;color:var(--text3)">${wools[w].recorder}</span></span>
+        <span style="color:var(--text2);flex:1">${w}</span>
+        <span style="font-weight:600">${wools[w].count}명 <span style="font-size:11px;color:var(--text3);font-weight:400">${wools[w].recorder}</span></span>
+        <div class="wool-detail-actions">
+          <button class="btn-icon" onclick="openEditWool('${r.date}','${w}','list')">수정</button>
+          <button class="btn-icon red" onclick="requestDeleteWool('${r.date}','${w}')">삭제</button>
+        </div>
       </div>`).join('');
     return `<div class="log-card">
       <div class="log-card-hd" onclick="toggleLog('log-${r.date}')">
@@ -646,58 +779,31 @@ function renderList() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="log-card-bd" id="log-${r.date}">
-        ${woolRows?`<div class="mini-label">울별 상세</div>${woolRows}`:'<div style="font-size:13px;color:var(--text3);padding:4px 0">울모임 미입력</div>'}
-        <div class="del-row"><button class="btn-danger" onclick="requestDelete('${r.date}')">이 날짜 기록 삭제</button></div>
+        ${woolRows?`<div class="mini-label">울별 상세 (수정·삭제 가능)</div>${woolRows}`:'<div style="font-size:13px;color:var(--text3);padding:4px 0">울모임 미입력</div>'}
+        <div class="del-row"><button class="btn-icon red" onclick="requestDeleteDate('${r.date}')">날짜 전체 삭제</button></div>
       </div>
     </div>`;
   }).join('');
 }
 
-function toggleLog(id) { document.getElementById(id)?.classList.toggle('open'); }
-
-/* ── 삭제 ── */
-function requestDelete(date) {
-  pendingDeleteDate = date;
-  document.getElementById('confirm-desc').textContent = `${fmtDate(date)} 전체 기록(예배·집회·울모임)을 삭제합니다. 복구할 수 없습니다.`;
-  openSheet('confirm-sheet');
-}
-async function confirmDelete() {
-  if (!pendingDeleteDate) return;
-  setSyncBadge('ing');
-  try {
-    await deleteRecord(pendingDeleteDate);
-    pendingDeleteDate = null;
-    closeSheet('confirm-sheet');
-    showToast('삭제되었습니다','deleted');
-    setSyncBadge('ok');
-    renderList(); renderHome(); renderDash();
-  } catch(e) { setSyncBadge('err'); showToast('삭제 실패','error'); }
-}
-
-/* ── 대시보드 ── */
-function setChip(n,el) {
-  chipN=n;
-  document.querySelectorAll('.pchip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderDash();
-}
+function toggleLog(id){document.getElementById(id)?.classList.toggle('open');}
 
 function renderDash() {
-  const all = Object.values(db).sort((a,b)=>a.date.localeCompare(b.date));
-  const rev = [...all].reverse();
-  const slice = chipN>=9999?rev:rev.slice(0,chipN);
-  const filtered = slice.reverse();
-  const n = filtered.length;
-  if (!n) {
+  const all=Object.values(db).sort((a,b)=>a.date.localeCompare(b.date));
+  const rev=[...all].reverse();
+  const slice=chipN>=9999?rev:rev.slice(0,chipN);
+  const filtered=slice.reverse();
+  const n=filtered.length;
+  if(!n){
     document.getElementById('dash-period-label').textContent='데이터 없음';
     document.getElementById('dash-metrics').innerHTML='';
     document.getElementById('wool-bars').innerHTML='<div class="empty" style="padding:24px 0">데이터가 없습니다</div>';
-    if (trendChart){trendChart.destroy();trendChart=null;}
+    if(trendChart){trendChart.destroy();trendChart=null;}
     return;
   }
   document.getElementById('dash-period-label').textContent=`${filtered[0].date} ~ ${filtered[n-1].date} · ${n}회`;
   document.getElementById('dash-chart-sub').textContent=`${filtered[0].date} ~ ${filtered[n-1].date}`;
-  const avg = arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
+  const avg=arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
   const worships=filtered.map(r=>r.worship??0);
   const meetings=filtered.map(r=>r.meeting??0);
   const woolTotals=filtered.map(r=>WOOLS.reduce((s,w)=>s+(r.wools?.[w]?.count||0),0));
@@ -707,17 +813,15 @@ function renderDash() {
     const h=Math.floor(n/2);
     const dw=avg(worships.slice(h))-avg(worships.slice(0,h));
     const dm=avg(meetings.slice(h))-avg(meetings.slice(0,h));
-    const pw=Math.round(Math.abs(dw)/Math.max(avg(worships.slice(0,h)),1)*100);
-    const pm=Math.round(Math.abs(dm)/Math.max(avg(meetings.slice(0,h)),1)*100);
-    cmpW=`<div class="${dw>=0?'m-up':'m-down'}">${dw>=0?'▲':'▼'} ${pw}%</div>`;
-    cmpM=`<div class="${dm>=0?'m-up':'m-down'}">${dm>=0?'▲':'▼'} ${pm}%</div>`;
+    cmpW=`<div class="${dw>=0?'m-up':'m-down'}">${dw>=0?'▲':'▼'} ${Math.round(Math.abs(dw)/Math.max(avg(worships.slice(0,h)),1)*100)}%</div>`;
+    cmpM=`<div class="${dm>=0?'m-up':'m-down'}">${dm>=0?'▲':'▼'} ${Math.round(Math.abs(dm)/Math.max(avg(meetings.slice(0,h)),1)*100)}%</div>`;
   }
   document.getElementById('dash-metrics').innerHTML=`
     <div class="metric"><div class="m-label">평균 예배</div><div class="m-val" style="color:var(--teal)">${avgW}</div><div class="m-sub">최고 ${Math.max(...worships)}명</div>${cmpW}</div>
     <div class="metric"><div class="m-label">평균 집회</div><div class="m-val" style="color:var(--purple)">${avgM}</div><div class="m-sub">최고 ${Math.max(...meetings)}명</div>${cmpM}</div>
     <div class="metric"><div class="m-label">울모임 평균</div><div class="m-val" style="color:var(--amber)">${avgU}</div><div class="m-sub">${n}회 기준</div></div>
   `;
-  const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark=matchMedia('(prefers-color-scheme:dark)').matches;
   const gc=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)';
   const tc=isDark?'#666662':'#a0a09c';
   const labels=filtered.map(r=>{const d=new Date(r.date+'T00:00:00');return `${d.getMonth()+1}/${d.getDate()}`;});
@@ -764,13 +868,13 @@ function closeSheet(id){document.getElementById(id).classList.remove('open');}
 function showToast(msg,type){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className=`toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'),2200);
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
-
-/* ── 30초마다 자동 새로고침 ── */
-function startPolling() {
-  if(pollingTimer) clearInterval(pollingTimer);
-  pollingTimer = setInterval(loadAll, 30000);
+function setChip(n,el){
+  chipN=n;
+  document.querySelectorAll('.pchip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderDash();
 }
 
 /* ── 초기화 ── */
@@ -778,7 +882,7 @@ const t=todayStr();
 document.getElementById('home-date').value=t;
 document.getElementById('input-date').value=t;
 initWoolSelect();
-loadAll().then(startPolling);
+loadAll().then(()=>{ pollingTimer=setInterval(loadAll,30000); });
 </script>
 </body>
 </html>

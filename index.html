@@ -11,10 +11,9 @@
   --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeedea;
   --text: #1a1a18; --text2: #6b6b67; --text3: #a0a09c;
   --border: rgba(0,0,0,0.09); --border2: rgba(0,0,0,0.18);
-  --teal: #1D9E75; --teal-bg: #E1F5EE; --teal-text: #085041; --teal-mid: #5DCAA5;
+  --teal: #1D9E75; --teal-bg: #E1F5EE; --teal-text: #085041;
   --purple: #7F77DD; --purple-bg: #EEEDFE; --purple-text: #3C3489;
-  --amber: #BA7517; --amber-bg: #FAEEDA; --amber-text: #412402;
-  --blue: #378ADD; --blue-bg: #E6F1FB; --blue-text: #042C53;
+  --amber: #BA7517; --amber-bg: #FAEEDA; --amber-text: #633806;
   --red: #E24B4A; --red-bg: #FCEBEB; --red-text: #A32D2D;
   --gray-bg: #F1EFE8; --gray-text: #444441;
   --radius: 12px; --radius-sm: 8px;
@@ -22,311 +21,274 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1c1c1a; --bg2: #262624; --bg3: #111110;
-    --text: #f0f0ee; --text2: #a0a09c; --text3: #666662;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.17);
-    --teal-bg: #04342C; --teal-text: #9FE1CB;
-    --purple-bg: #26215C; --purple-text: #AFA9EC;
-    --amber-bg: #412402; --amber-text: #FAC775;
-    --blue-bg: #042C53; --blue-text: #B5D4F4;
-    --red-bg: #501313; --red-text: #F7C1C1;
-    --gray-bg: #2C2C2A; --gray-text: #D3D1C7;
+    --bg:#1c1c1a; --bg2:#262624; --bg3:#111110;
+    --text:#f0f0ee; --text2:#a0a09c; --text3:#666662;
+    --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.17);
+    --teal-bg:#04342C; --teal-text:#9FE1CB;
+    --purple-bg:#26215C; --purple-text:#AFA9EC;
+    --amber-bg:#412402; --amber-text:#FAC775;
+    --red-bg:#501313; --red-text:#F7C1C1;
+    --gray-bg:#2C2C2A; --gray-text:#D3D1C7;
   }
 }
-html, body { height: 100%; background: var(--bg3); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; font-size: 16px; line-height: 1.5; overscroll-behavior: none; }
+html,body { height:100%; background:var(--bg3); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif; font-size:16px; line-height:1.5; overscroll-behavior:none; }
 
-/* ── 바텀 탭 ── */
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(var(--nav-h) + var(--safe-b)); background: var(--bg); border-top: 0.5px solid var(--border); display: flex; z-index: 100; }
-.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: none; background: none; cursor: pointer; padding-bottom: var(--safe-b); color: var(--text3); font-size: 11px; transition: color 0.15s; }
-.nav-btn.active { color: var(--teal); }
-.nav-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; height:calc(var(--nav-h) + var(--safe-b)); background:var(--bg); border-top:0.5px solid var(--border); display:flex; z-index:100; }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:none; cursor:pointer; padding-bottom:var(--safe-b); color:var(--text3); font-size:11px; }
+.nav-btn.active { color:var(--teal); }
+.nav-icon svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
-/* ── 페이지 ── */
-.page { display: none; height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: calc(var(--nav-h) + var(--safe-b) + 1rem); }
-.page.active { display: block; }
-.page-header { position: sticky; top: 0; background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 14px 16px 12px; z-index: 10; }
-.page-header h1 { font-size: 17px; font-weight: 600; }
-.page-header p { font-size: 12px; color: var(--text3); margin-top: 1px; }
-.content { padding: 14px 16px; }
+.page { display:none; height:100vh; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:calc(var(--nav-h) + var(--safe-b) + 1rem); }
+.page.active { display:block; }
+.page-header { position:sticky; top:0; background:var(--bg); border-bottom:0.5px solid var(--border); padding:14px 16px 12px; z-index:10; display:flex; align-items:center; justify-content:space-between; }
+.page-header-left h1 { font-size:17px; font-weight:600; }
+.page-header-left p { font-size:12px; color:var(--text3); margin-top:1px; }
+.sync-badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:999px; }
+.sync-ok { background:var(--teal-bg); color:var(--teal-text); }
+.sync-ing { background:var(--amber-bg); color:var(--amber-text); }
+.sync-err { background:var(--red-bg); color:var(--red-text); }
 
-/* ── 날짜 선택 탭 ── */
-.date-selector { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 57px; z-index: 9; }
-.date-selector label { font-size: 12px; color: var(--text2); white-space: nowrap; }
-.date-selector input { flex: 1; font-size: 15px; padding: 8px 12px; border-radius: var(--radius-sm); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); outline: none; appearance: none; -webkit-appearance: none; }
-.date-selector input:focus { border-color: var(--teal); }
+.date-bar { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--bg); border-bottom:0.5px solid var(--border); position:sticky; top:57px; z-index:9; }
+.date-bar label { font-size:12px; color:var(--text2); white-space:nowrap; }
+.date-bar input { flex:1; font-size:15px; padding:7px 12px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:var(--bg2); color:var(--text); outline:none; appearance:none; -webkit-appearance:none; }
+.date-bar input:focus { border-color:var(--teal); }
 
-/* ── 카드 ── */
-.card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
-.card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border); }
-.card-head-left { display: flex; align-items: center; gap: 8px; }
-.card-badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
-.badge-teal { background: var(--teal-bg); color: var(--teal-text); }
-.badge-purple { background: var(--purple-bg); color: var(--purple-text); }
-.badge-amber { background: var(--amber-bg); color: var(--amber-text); }
-.badge-gray { background: var(--gray-bg); color: var(--gray-text); }
-.badge-blue { background: var(--blue-bg); color: var(--blue-text); }
-.card-title { font-size: 14px; font-weight: 600; }
+.content { padding:14px 16px; }
+.card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:10px; }
+.card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-bottom:10px; border-bottom:0.5px solid var(--border); }
+.card-head-left { display:flex; align-items:center; gap:8px; }
+.cbadge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:999px; }
+.cb-teal { background:var(--teal-bg); color:var(--teal-text); }
+.cb-purple { background:var(--purple-bg); color:var(--purple-text); }
+.cb-amber { background:var(--amber-bg); color:var(--amber-text); }
+.cb-gray { background:var(--gray-bg); color:var(--gray-text); }
+.card-title { font-size:14px; font-weight:600; }
 
-/* ── 폼 ── */
-.field { margin-bottom: 12px; }
-.field:last-child { margin-bottom: 0; }
-.field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
-input[type=date], input[type=month], input[type=number], input[type=text], select {
-  width: 100%; font-size: 16px; padding: 12px 14px; border-radius: var(--radius-sm);
-  border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text);
-  outline: none; appearance: none; -webkit-appearance: none;
+.field { margin-bottom:12px; }
+.field:last-child { margin-bottom:0; }
+.field label { display:block; font-size:12px; color:var(--text2); margin-bottom:5px; font-weight:500; }
+input[type=number],input[type=text],select {
+  width:100%; font-size:16px; padding:12px 14px; border-radius:var(--radius-sm);
+  border:0.5px solid var(--border2); background:var(--bg2); color:var(--text);
+  outline:none; appearance:none; -webkit-appearance:none;
 }
-input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(29,158,117,0.1); }
-.big-input { font-size: 24px; font-weight: 700; text-align: center; padding: 16px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+input:focus,select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(29,158,117,0.1); }
+.big-input { font-size:26px; font-weight:700; text-align:center; padding:16px; }
 
-/* ── 울 선택 ── */
-.wool-select-wrap { margin-bottom: 12px; }
-.wool-select-wrap label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
-.wool-select-wrap select { font-size: 16px; }
+.btn-save { width:100%; padding:15px; color:white; border:none; border-radius:var(--radius-sm); font-size:16px; font-weight:600; cursor:pointer; margin-top:4px; }
+.btn-save:active { opacity:0.82; transform:scale(0.99); }
+.btn-teal { background:var(--teal); }
+.btn-purple { background:var(--purple); }
+.btn-amber { background:var(--amber); }
+.btn-ghost { padding:9px 14px; background:none; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:13px; color:var(--text2); cursor:pointer; }
+.btn-danger { padding:9px 14px; background:none; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:13px; color:var(--text3); cursor:pointer; flex-shrink:0; }
+.btn-danger:active { background:var(--red-bg); color:var(--red-text); border-color:var(--red); }
 
-/* ── 저장 버튼 ── */
-.btn-save { width: 100%; padding: 15px; background: var(--teal); color: white; border: none; border-radius: var(--radius-sm); font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 4px; }
-.btn-save:active { opacity: 0.82; transform: scale(0.99); }
-.btn-ghost { padding: 9px 14px; background: none; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); font-size: 13px; color: var(--text2); cursor: pointer; }
-.btn-ghost:active { background: var(--bg2); }
-.btn-danger { padding: 9px 14px; background: none; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); font-size: 13px; color: var(--text3); cursor: pointer; flex-shrink: 0; }
-.btn-danger:active { background: var(--red-bg); color: var(--red-text); border-color: var(--red); }
+.toast-wrap { position:fixed; top:16px; left:16px; right:16px; z-index:999; pointer-events:none; }
+.toast { display:none; padding:13px 16px; border-radius:var(--radius-sm); font-size:14px; font-weight:500; text-align:center; }
+.toast.show { display:block; }
+.toast.success { background:var(--teal); color:white; }
+.toast.warn { background:var(--amber); color:white; }
+.toast.deleted { background:var(--red); color:white; }
+.toast.error { background:var(--red); color:white; }
 
-/* ── 토스트 ── */
-.toast-wrap { position: fixed; top: 16px; left: 16px; right: 16px; z-index: 999; pointer-events: none; }
-.toast { display: none; padding: 13px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; text-align: center; }
-.toast.show { display: block; }
-.toast.success { background: var(--teal); color: white; }
-.toast.warn { background: var(--amber); color: white; }
-.toast.deleted { background: var(--red); color: white; }
+/* 현황 */
+.prog-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.prog-label { font-size:12px; color:var(--text2); width:52px; flex-shrink:0; }
+.prog-bg { flex:1; height:8px; background:var(--bg2); border-radius:4px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:4px; transition:width 0.3s; }
+.fill-teal { background:var(--teal); }
+.fill-purple { background:var(--purple); }
+.fill-amber { background:var(--amber); }
+.prog-count { font-size:12px; font-weight:600; min-width:52px; text-align:right; }
+.snums { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:10px; }
+.snum { background:var(--bg2); border-radius:var(--radius-sm); padding:12px 10px; text-align:center; }
+.snum-val { font-size:22px; font-weight:700; line-height:1; margin-bottom:3px; }
+.snum-label { font-size:11px; color:var(--text2); }
+.snum.t .snum-val { color:var(--teal); }
+.snum.p .snum-val { color:var(--purple); }
+.snum.a .snum-val { color:var(--amber); }
+.wool-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:6px; }
+.witem { border-radius:var(--radius-sm); padding:8px 10px; font-size:12px; font-weight:500; text-align:center; }
+.witem-done { background:var(--teal-bg); color:var(--teal-text); }
+.witem-pending { background:var(--bg2); color:var(--text3); border:0.5px dashed var(--border2); }
+.witem-cnt { font-size:11px; margin-top:2px; opacity:0.8; }
 
-/* ── 현황 (홈) ── */
-.week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.week-title { font-size: 14px; font-weight: 600; }
-.progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.progress-label { font-size: 12px; color: var(--text2); width: 52px; flex-shrink: 0; }
-.progress-bar-bg { flex: 1; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
-.fill-teal { background: var(--teal); }
-.fill-purple { background: var(--purple); }
-.fill-amber { background: var(--amber); }
-.progress-count { font-size: 12px; font-weight: 600; color: var(--text); min-width: 48px; text-align: right; }
+/* 목록 */
+.filter-row { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
+.filter-row input[type=month] { flex:1; font-size:15px; padding:8px 12px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:var(--bg2); color:var(--text); outline:none; appearance:none; }
+.log-card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); margin-bottom:8px; overflow:hidden; }
+.log-card-hd { display:flex; align-items:center; justify-content:space-between; padding:13px 16px; cursor:pointer; }
+.log-card-date { font-size:14px; font-weight:600; }
+.log-chips { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.lchip { font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; }
+.lc-t { background:var(--teal-bg); color:var(--teal-text); }
+.lc-p { background:var(--purple-bg); color:var(--purple-text); }
+.lc-a { background:var(--amber-bg); color:var(--amber-text); }
+.lc-g { background:var(--gray-bg); color:var(--gray-text); }
+.log-card-bd { display:none; border-top:0.5px solid var(--border); padding:14px 16px; }
+.log-card-bd.open { display:block; }
+.wool-detail-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
+.wool-detail-row:last-child { border-bottom:none; }
+.mini-label { font-size:11px; font-weight:600; color:var(--text2); margin:10px 0 6px; }
+.del-row { display:flex; justify-content:flex-end; margin-top:12px; padding-top:10px; border-top:0.5px solid var(--border); }
 
-/* ── 수합 현황 카드 ── */
-.summary-nums { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-.snum { background: var(--bg2); border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; }
-.snum-val { font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
-.snum-label { font-size: 11px; color: var(--text2); }
-.snum.teal .snum-val { color: var(--teal); }
-.snum.purple .snum-val { color: var(--purple); }
-.snum.amber .snum-val { color: var(--amber); }
+/* 대시보드 */
+.pchips { display:flex; gap:6px; overflow-x:auto; padding-bottom:2px; margin-bottom:14px; scrollbar-width:none; }
+.pchips::-webkit-scrollbar { display:none; }
+.pchip { flex-shrink:0; padding:7px 14px; border-radius:999px; border:0.5px solid var(--border2); background:var(--bg2); font-size:13px; color:var(--text2); cursor:pointer; }
+.pchip.active { background:var(--teal); border-color:var(--teal); color:white; font-weight:600; }
+.mrow { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:12px; scrollbar-width:none; }
+.mrow::-webkit-scrollbar { display:none; }
+.metric { flex-shrink:0; min-width:120px; background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:13px 14px; }
+.m-label { font-size:11px; color:var(--text2); margin-bottom:4px; }
+.m-val { font-size:22px; font-weight:700; line-height:1; margin-bottom:3px; }
+.m-sub { font-size:11px; color:var(--text3); }
+.m-up { font-size:11px; color:var(--teal); margin-top:2px; }
+.m-down { font-size:11px; color:var(--red); margin-top:2px; }
+.chart-card { background:var(--bg); border:0.5px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:10px; }
+.chart-label { font-size:14px; font-weight:600; margin-bottom:2px; }
+.chart-sub { font-size:11px; color:var(--text3); margin-bottom:12px; }
+.legend { display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text2); }
+.legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+.wbar-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.wbar-name { font-size:12px; color:var(--text2); width:72px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.wbar-bg { flex:1; background:var(--bg2); border-radius:4px; height:10px; overflow:hidden; }
+.wbar-fill { height:100%; border-radius:4px; background:var(--amber); }
+.wbar-num { font-size:12px; font-weight:600; min-width:34px; text-align:right; }
 
-/* ── 울 현황 그리드 ── */
-.wool-status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
-.wool-status-item { border-radius: var(--radius-sm); padding: 8px 10px; font-size: 12px; font-weight: 500; text-align: center; }
-.wool-done { background: var(--teal-bg); color: var(--teal-text); }
-.wool-pending { background: var(--bg2); color: var(--text3); border: 0.5px dashed var(--border2); }
-.wool-status-count { font-size: 11px; margin-top: 2px; opacity: 0.8; }
-
-/* ── 목록 ── */
-.filter-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
-.filter-row input[type=month] { flex: 1; font-size: 15px; }
-.log-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
-.log-card-header { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; cursor: pointer; }
-.log-card-date { font-size: 14px; font-weight: 600; }
-.log-card-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
-.lchip { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
-.lchip-teal { background: var(--teal-bg); color: var(--teal-text); }
-.lchip-purple { background: var(--purple-bg); color: var(--purple-text); }
-.lchip-amber { background: var(--amber-bg); color: var(--amber-text); }
-.lchip-gray { background: var(--gray-bg); color: var(--gray-text); }
-.log-card-body { display: none; border-top: 0.5px solid var(--border); padding: 14px 16px; }
-.log-card-body.open { display: block; }
-.wool-detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
-.wool-detail-row:last-child { border-bottom: none; }
-.section-mini-label { font-size: 11px; font-weight: 600; color: var(--text2); margin: 10px 0 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-.del-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 0.5px solid var(--border); }
-
-/* ── 대시보드 ── */
-.period-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; margin-bottom: 14px; scrollbar-width: none; }
-.period-chips::-webkit-scrollbar { display: none; }
-.pchip { flex-shrink: 0; padding: 7px 14px; border-radius: 999px; border: 0.5px solid var(--border2); background: var(--bg2); font-size: 13px; color: var(--text2); cursor: pointer; }
-.pchip.active { background: var(--teal); border-color: var(--teal); color: white; font-weight: 600; }
-.metric-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; scrollbar-width: none; }
-.metric-row::-webkit-scrollbar { display: none; }
-.metric { flex-shrink: 0; min-width: 120px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 13px 14px; }
-.m-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
-.m-val { font-size: 22px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
-.m-sub { font-size: 11px; color: var(--text3); }
-.m-up { font-size: 11px; color: var(--teal); margin-top: 2px; }
-.m-down { font-size: 11px; color: var(--red); margin-top: 2px; }
-.chart-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
-.chart-label { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-.chart-sub { font-size: 11px; color: var(--text3); margin-bottom: 12px; }
-.legend { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.wool-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.wool-name { font-size: 12px; color: var(--text2); width: 72px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wool-bar-bg { flex: 1; background: var(--bg2); border-radius: 4px; height: 10px; overflow: hidden; }
-.wool-bar-fill { height: 100%; border-radius: 4px; background: var(--amber); }
-.wool-num { font-size: 12px; font-weight: 600; min-width: 34px; text-align: right; }
-
-/* ── 바텀 시트 ── */
-.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 300; align-items: flex-end; justify-content: center; }
-.modal-bg.open { display: flex; }
-.sheet { background: var(--bg); border-radius: 20px 20px 0 0; padding: 8px 20px calc(20px + var(--safe-b)); width: 100%; max-width: 520px; max-height: 88vh; overflow-y: auto; }
-.sheet-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 4px auto 16px; }
-.sheet-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-.sheet-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.5; }
-.sheet-btns { display: flex; gap: 10px; margin-top: 8px; }
-.sheet-cancel { flex: 1; padding: 14px; background: var(--bg2); border: none; border-radius: var(--radius-sm); font-size: 15px; color: var(--text2); cursor: pointer; font-weight: 500; }
-.sheet-del { flex: 1; padding: 14px; background: var(--red); border: none; border-radius: var(--radius-sm); font-size: 15px; color: white; cursor: pointer; font-weight: 600; }
-.empty { text-align: center; padding: 48px 16px; color: var(--text3); font-size: 14px; }
+.modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:300; align-items:flex-end; justify-content:center; }
+.modal-bg.open { display:flex; }
+.sheet { background:var(--bg); border-radius:20px 20px 0 0; padding:8px 20px calc(20px + var(--safe-b)); width:100%; max-width:520px; max-height:88vh; overflow-y:auto; }
+.sheet-handle { width:36px; height:4px; background:var(--border2); border-radius:2px; margin:4px auto 16px; }
+.sheet-title { font-size:17px; font-weight:600; margin-bottom:6px; }
+.sheet-sub { font-size:13px; color:var(--text2); margin-bottom:20px; line-height:1.5; }
+.sheet-btns { display:flex; gap:10px; margin-top:8px; }
+.sh-cancel { flex:1; padding:14px; background:var(--bg2); border:none; border-radius:var(--radius-sm); font-size:15px; color:var(--text2); cursor:pointer; font-weight:500; }
+.sh-del { flex:1; padding:14px; background:var(--red); border:none; border-radius:var(--radius-sm); font-size:15px; color:white; cursor:pointer; font-weight:600; }
+.empty { text-align:center; padding:48px 16px; color:var(--text3); font-size:14px; }
+.wool-done-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:0.5px solid var(--border); font-size:13px; }
+.wool-done-item:last-child { border-bottom:none; }
 </style>
 </head>
 <body>
 
 <div class="toast-wrap"><div id="toast" class="toast"></div></div>
 
-<!-- ════════════════════════════════
-     홈 — 이번 주 수합 현황
-════════════════════════════════ -->
+<!-- 현황 -->
 <div id="page-home" class="page active">
   <div class="page-header">
-    <h1>새문안교회 출석 수합</h1>
-    <p id="home-date-label"></p>
+    <div class="page-header-left">
+      <h1>새문안교회 출석 수합</h1>
+      <p id="home-date-label"></p>
+    </div>
+    <span class="sync-badge sync-ing" id="sync-badge">연결 중...</span>
   </div>
-
-  <!-- 날짜 선택 -->
-  <div class="date-selector">
+  <div class="date-bar">
     <label>기준 날짜</label>
-    <input type="date" id="home-date" onchange="renderHome()" />
+    <input type="date" id="home-date" onchange="onDateChange()" />
   </div>
-
   <div class="content">
-    <!-- 수합 진행률 -->
     <div class="card">
       <div class="card-head">
         <div class="card-head-left">
-          <span class="card-badge badge-teal">수합 현황</span>
-          <span class="card-title" id="home-status-title">입력 대기 중</span>
+          <span class="cbadge cb-teal">수합 현황</span>
+          <span class="card-title" id="home-status-title">불러오는 중...</span>
         </div>
       </div>
-
-      <div class="progress-row">
-        <span class="progress-label">예배</span>
-        <div class="progress-bar-bg"><div class="progress-bar-fill fill-teal" id="prog-worship" style="width:0%"></div></div>
-        <span class="progress-count" id="prog-worship-label">미입력</span>
+      <div class="prog-row">
+        <span class="prog-label">예배</span>
+        <div class="prog-bg"><div class="prog-fill fill-teal" id="prog-worship" style="width:0%"></div></div>
+        <span class="prog-count" id="prog-worship-label">미입력</span>
       </div>
-      <div class="progress-row">
-        <span class="progress-label">집회</span>
-        <div class="progress-bar-bg"><div class="progress-bar-fill fill-purple" id="prog-meeting" style="width:0%"></div></div>
-        <span class="progress-count" id="prog-meeting-label">미입력</span>
+      <div class="prog-row">
+        <span class="prog-label">집회</span>
+        <div class="prog-bg"><div class="prog-fill fill-purple" id="prog-meeting" style="width:0%"></div></div>
+        <span class="prog-count" id="prog-meeting-label">미입력</span>
       </div>
-      <div class="progress-row" style="margin-bottom:0">
-        <span class="progress-label">울모임</span>
-        <div class="progress-bar-bg"><div class="progress-bar-fill fill-amber" id="prog-wool" style="width:0%"></div></div>
-        <span class="progress-count" id="prog-wool-label">0 / 13</span>
-      </div>
-    </div>
-
-    <!-- 집계 숫자 -->
-    <div class="summary-nums">
-      <div class="snum teal">
-        <div class="snum-val" id="home-worship">—</div>
-        <div class="snum-label">예배</div>
-      </div>
-      <div class="snum purple">
-        <div class="snum-val" id="home-meeting">—</div>
-        <div class="snum-label">집회</div>
-      </div>
-      <div class="snum amber">
-        <div class="snum-val" id="home-wool-total">—</div>
-        <div class="snum-label">울모임 합산</div>
+      <div class="prog-row" style="margin-bottom:0">
+        <span class="prog-label">울모임</span>
+        <div class="prog-bg"><div class="prog-fill fill-amber" id="prog-wool" style="width:0%"></div></div>
+        <span class="prog-count" id="prog-wool-label">0 / 13</span>
       </div>
     </div>
-
-    <!-- 울별 입력 현황 -->
+    <div class="snums">
+      <div class="snum t"><div class="snum-val" id="home-worship">—</div><div class="snum-label">예배</div></div>
+      <div class="snum p"><div class="snum-val" id="home-meeting">—</div><div class="snum-label">집회</div></div>
+      <div class="snum a"><div class="snum-val" id="home-wool">—</div><div class="snum-label">울모임 합산</div></div>
+    </div>
     <div class="card">
       <div class="card-head">
         <div class="card-head-left">
-          <span class="card-badge badge-amber">울모임</span>
+          <span class="cbadge cb-amber">울모임</span>
           <span class="card-title">울별 입력 현황</span>
         </div>
       </div>
-      <div class="wool-status-grid" id="wool-status-grid"></div>
+      <div class="wool-grid" id="wool-status-grid"></div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════
-     입력 — 예배 / 집회 / 울모임
-════════════════════════════════ -->
+<!-- 입력 -->
 <div id="page-input" class="page">
   <div class="page-header">
-    <h1>출석 입력</h1>
-    <p>항목을 선택해 입력하세요</p>
+    <div class="page-header-left">
+      <h1>출석 입력</h1>
+      <p>항목을 선택해 입력하세요</p>
+    </div>
+    <span class="sync-badge sync-ing" id="sync-badge2">연결 중...</span>
   </div>
-
-  <div class="date-selector">
+  <div class="date-bar">
     <label>기준 날짜</label>
-    <input type="date" id="input-date" onchange="syncDates('input')" />
+    <input type="date" id="input-date" onchange="onDateChange()" />
   </div>
-
   <div class="content">
-
-    <!-- 예배 참석 -->
     <div class="card">
       <div class="card-head">
         <div class="card-head-left">
-          <span class="card-badge badge-teal">임원단</span>
+          <span class="cbadge cb-teal">임원단</span>
           <span class="card-title">예배 참석 인원</span>
         </div>
-        <span class="card-badge badge-gray" id="worship-saved-badge" style="display:none">저장됨</span>
+        <span class="cbadge cb-gray" id="worship-saved-badge" style="display:none">저장됨</span>
       </div>
       <div class="field" style="margin-bottom:14px">
         <label>참석 인원 수</label>
         <input type="number" id="worship-count" class="big-input" placeholder="0" min="0" inputmode="numeric" />
       </div>
-      <button class="btn-save" onclick="saveWorship()">예배 인원 저장</button>
+      <button class="btn-save btn-teal" onclick="saveWorship()">예배 인원 저장</button>
     </div>
 
-    <!-- 집회 참석 -->
     <div class="card">
       <div class="card-head">
         <div class="card-head-left">
-          <span class="card-badge badge-purple">임원단</span>
+          <span class="cbadge cb-purple">임원단</span>
           <span class="card-title">집회 참석 인원</span>
         </div>
-        <span class="card-badge badge-gray" id="meeting-saved-badge" style="display:none">저장됨</span>
+        <span class="cbadge cb-gray" id="meeting-saved-badge" style="display:none">저장됨</span>
       </div>
       <div class="field" style="margin-bottom:14px">
         <label>참석 인원 수</label>
         <input type="number" id="meeting-count" class="big-input" placeholder="0" min="0" inputmode="numeric" />
       </div>
-      <button class="btn-save" style="background:var(--purple)" onclick="saveMeeting()">집회 인원 저장</button>
+      <button class="btn-save btn-purple" onclick="saveMeeting()">집회 인원 저장</button>
     </div>
 
-    <!-- 울모임 -->
     <div class="card">
       <div class="card-head">
         <div class="card-head-left">
-          <span class="card-badge badge-amber">리더</span>
+          <span class="cbadge cb-amber">리더</span>
           <span class="card-title">울모임 참석 인원</span>
         </div>
       </div>
-
-      <div class="wool-select-wrap">
+      <div class="field">
         <label>내 울 선택</label>
         <select id="wool-select" onchange="onWoolSelect()">
           <option value="">— 울을 선택하세요 —</option>
         </select>
       </div>
-
       <div id="wool-input-area" style="display:none">
-        <div class="field" style="margin-bottom:14px">
+        <div class="field" style="margin-bottom:12px">
           <label id="wool-input-label">참석 인원 수</label>
           <input type="number" id="wool-count" class="big-input" placeholder="0" min="0" inputmode="numeric" />
         </div>
@@ -334,23 +296,20 @@ input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgb
           <label>기록자 이름</label>
           <input type="text" id="wool-recorder" placeholder="리더 이름을 입력하세요" />
         </div>
-        <button class="btn-save" style="background:var(--amber)" onclick="saveWool()">울모임 인원 저장</button>
+        <button class="btn-save btn-amber" onclick="saveWool()">울모임 인원 저장</button>
       </div>
-
-      <!-- 이미 입력된 울 현황 -->
       <div id="wool-done-list" style="margin-top:12px"></div>
     </div>
-
   </div>
 </div>
 
-<!-- ════════════════════════════════
-     목록
-════════════════════════════════ -->
+<!-- 목록 -->
 <div id="page-list" class="page">
   <div class="page-header">
-    <h1>기록 목록</h1>
-    <p id="list-count"></p>
+    <div class="page-header-left">
+      <h1>기록 목록</h1>
+      <p id="list-count"></p>
+    </div>
   </div>
   <div class="content">
     <div class="filter-row">
@@ -361,23 +320,23 @@ input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgb
   </div>
 </div>
 
-<!-- ════════════════════════════════
-     대시보드
-════════════════════════════════ -->
+<!-- 대시보드 -->
 <div id="page-dash" class="page">
   <div class="page-header">
-    <h1>대시보드</h1>
-    <p id="dash-period-label"></p>
+    <div class="page-header-left">
+      <h1>대시보드</h1>
+      <p id="dash-period-label"></p>
+    </div>
   </div>
   <div class="content">
-    <div class="period-chips">
+    <div class="pchips">
       <button class="pchip" onclick="setChip(4,this)">4주</button>
       <button class="pchip active" onclick="setChip(8,this)">8주</button>
       <button class="pchip" onclick="setChip(12,this)">12주</button>
       <button class="pchip" onclick="setChip(24,this)">24주</button>
       <button class="pchip" onclick="setChip(9999,this)">전체</button>
     </div>
-    <div class="metric-row" id="dash-metrics"></div>
+    <div class="mrow" id="dash-metrics"></div>
     <div class="chart-card">
       <div class="chart-label">예배 · 집회 · 울모임 추이</div>
       <div class="chart-sub" id="dash-chart-sub"></div>
@@ -398,7 +357,6 @@ input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgb
   </div>
 </div>
 
-<!-- 바텀 탭 -->
 <nav class="bottom-nav">
   <button class="nav-btn active" id="nav-home" onclick="switchPage('home')">
     <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span>
@@ -418,61 +376,93 @@ input:focus, select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgb
   </button>
 </nav>
 
-<!-- 삭제 확인 시트 -->
 <div id="confirm-sheet" class="modal-bg" onclick="if(event.target===this)closeSheet('confirm-sheet')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title">기록을 삭제할까요?</div>
     <div class="sheet-sub" id="confirm-desc"></div>
     <div class="sheet-btns">
-      <button class="sheet-cancel" onclick="closeSheet('confirm-sheet')">취소</button>
-      <button class="sheet-del" onclick="confirmDelete()">삭제</button>
+      <button class="sh-cancel" onclick="closeSheet('confirm-sheet')">취소</button>
+      <button class="sh-del" onclick="confirmDelete()">삭제</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ════════════════════
-   데이터 구조
-   records[date] = {
-     date,
-     worship: number | null,
-     meeting: number | null,
-     wools: { '김보연울': { count, recorder, savedAt }, ... }
-   }
-════════════════════ */
+const SUPABASE_URL = 'https://xzjpkhrzzmkolupldhff.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6anBraHJ6em1rb2x1cGxkaGZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMDExOTcsImV4cCI6MjA5MTg3NzE5N30.baK_Jc5LpP0Emew2u3wmdLLoMSIWk4ECKib9bgjLlco';
+const API = `${SUPABASE_URL}/rest/v1/attendance`;
+const HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+
 const WOOLS = ['새가족반','김보연울','이수인울','손동호울','김지인울','주지은울','최민정울','정충만울','배주희울','이승주울','이련경울','양승연울','이승은울'];
-const KEY = 'smaan-v4';
-let db = {}; // keyed by date string
+
+let db = {};
 let chipN = 8;
 let pendingDeleteDate = null;
+let trendChart = null;
+let pollingTimer = null;
 
-/* ── Storage ── */
-const store = {
-  async load() {
-    if (window.storage) {
-      try { const r = await window.storage.get(KEY, true); return r ? JSON.parse(r.value) : {}; } catch(e) {}
-    }
-    try { const v = localStorage.getItem(KEY); return v ? JSON.parse(v) : {}; } catch(e) { return {}; }
-  },
-  async save(data) {
-    if (window.storage) {
-      try { await window.storage.set(KEY, JSON.stringify(data), true); return; } catch(e) {}
-    }
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {}
+/* ── Supabase API ── */
+async function sbFetch(path, method='GET', body=null) {
+  const opts = { method, headers: { ...HEADERS } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(SUPABASE_URL + path, opts);
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
   }
-};
-
-async function init() {
-  db = await store.load();
-  initDates();
-  populateWoolSelect();
-  renderHome();
-  renderList();
-  renderDash();
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
 
-/* ── 날짜 초기화 ── */
+async function loadAll() {
+  setSyncBadge('ing');
+  try {
+    const rows = await sbFetch('/rest/v1/attendance?select=*&order=date.desc');
+    db = {};
+    (rows || []).forEach(r => { db[r.date] = r; });
+    setSyncBadge('ok');
+    renderHome();
+    renderList();
+    renderDash();
+    renderInputSavedState();
+  } catch(e) {
+    setSyncBadge('err');
+    showToast('서버 연결 실패. 잠시 후 다시 시도해주세요.', 'error');
+  }
+}
+
+async function upsertRecord(date, patch) {
+  const existing = db[date];
+  if (existing) {
+    const updated = { ...existing, ...patch, updated_at: new Date().toISOString() };
+    const rows = await sbFetch(`/rest/v1/attendance?date=eq.${date}`, 'PATCH', patch);
+    db[date] = { ...existing, ...patch };
+  } else {
+    const newRow = { date, worship: null, meeting: null, wools: {}, ...patch };
+    const rows = await sbFetch('/rest/v1/attendance', 'POST', newRow);
+    db[date] = Array.isArray(rows) ? rows[0] : newRow;
+  }
+}
+
+async function deleteRecord(date) {
+  await sbFetch(`/rest/v1/attendance?date=eq.${date}`, 'DELETE');
+  delete db[date];
+}
+
+/* ── 동기화 배지 ── */
+function setSyncBadge(state) {
+  const labels = { ok:'연결됨', ing:'동기화 중...', err:'연결 오류' };
+  const cls = { ok:'sync-ok', ing:'sync-ing', err:'sync-err' };
+  ['sync-badge','sync-badge2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = labels[state];
+    el.className = `sync-badge ${cls[state]}`;
+  });
+}
+
+/* ── 날짜 ── */
 function todayStr() {
   const d = new Date();
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
@@ -484,22 +474,22 @@ function fmtDate(s) {
   return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
 }
 
-function initDates() {
-  const t = todayStr();
-  document.getElementById('home-date').value = t;
-  document.getElementById('input-date').value = t;
-}
-
-function syncDates(from) {
-  const val = document.getElementById(from === 'input' ? 'input-date' : 'home-date').value;
+function onDateChange() {
+  const hv = document.getElementById('home-date').value;
+  const iv = document.getElementById('input-date').value;
+  const val = hv !== iv ? (event.target.id === 'home-date' ? hv : iv) : hv;
   document.getElementById('home-date').value = val;
   document.getElementById('input-date').value = val;
   renderHome();
   renderInputSavedState();
 }
 
-/* ── 울 선택 옵션 ── */
-function populateWoolSelect() {
+function getDate() {
+  return document.getElementById('home-date').value || todayStr();
+}
+
+/* ── 울 선택 초기화 ── */
+function initWoolSelect() {
   const sel = document.getElementById('wool-select');
   sel.innerHTML = '<option value="">— 울을 선택하세요 —</option>' +
     WOOLS.map(w => `<option value="${w}">${w}</option>`).join('');
@@ -508,135 +498,119 @@ function populateWoolSelect() {
 function onWoolSelect() {
   const w = document.getElementById('wool-select').value;
   const area = document.getElementById('wool-input-area');
-  if (!w) { area.style.display = 'none'; return; }
+  if (!w) { area.style.display='none'; return; }
   area.style.display = 'block';
   document.getElementById('wool-input-label').textContent = `${w} 참석 인원`;
-  const date = document.getElementById('input-date').value;
-  const rec = db[date]?.wools?.[w];
-  document.getElementById('wool-count').value = rec ? rec.count : '';
-  document.getElementById('wool-recorder').value = rec ? rec.recorder : '';
+  const date = getDate();
+  const wools = db[date]?.wools || {};
+  document.getElementById('wool-count').value = wools[w]?.count ?? '';
+  document.getElementById('wool-recorder').value = wools[w]?.recorder ?? '';
   renderWoolDoneList();
 }
 
-/* ── 저장됨 배지 표시 ── */
+/* ── 저장됨 상태 표시 ── */
 function renderInputSavedState() {
-  const date = document.getElementById('input-date').value;
+  const date = getDate();
   const rec = db[date];
   const wb = document.getElementById('worship-saved-badge');
   const mb = document.getElementById('meeting-saved-badge');
-  if (rec?.worship != null) {
-    wb.style.display = 'inline-flex';
-    document.getElementById('worship-count').value = rec.worship;
-  } else {
-    wb.style.display = 'none';
-    document.getElementById('worship-count').value = '';
-  }
-  if (rec?.meeting != null) {
-    mb.style.display = 'inline-flex';
-    document.getElementById('meeting-count').value = rec.meeting;
-  } else {
-    mb.style.display = 'none';
-    document.getElementById('meeting-count').value = '';
-  }
+  if (rec?.worship != null) { wb.style.display='inline-flex'; document.getElementById('worship-count').value = rec.worship; }
+  else { wb.style.display='none'; document.getElementById('worship-count').value=''; }
+  if (rec?.meeting != null) { mb.style.display='inline-flex'; document.getElementById('meeting-count').value = rec.meeting; }
+  else { mb.style.display='none'; document.getElementById('meeting-count').value=''; }
   renderWoolDoneList();
 }
 
 function renderWoolDoneList() {
-  const date = document.getElementById('input-date').value;
+  const date = getDate();
   const wools = db[date]?.wools || {};
   const done = WOOLS.filter(w => wools[w] != null);
   const el = document.getElementById('wool-done-list');
-  if (!done.length) { el.innerHTML = ''; return; }
-  el.innerHTML = `<div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px">입력 완료된 울 (${done.length}/13)</div>` +
-    done.map(w => `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:13px">
-      <span style="color:var(--teal-text);background:var(--teal-bg);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600">${w}</span>
+  if (!done.length) { el.innerHTML=''; return; }
+  el.innerHTML = `<div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px">입력 완료 (${done.length}/13)</div>` +
+    done.map(w => `<div class="wool-done-item">
+      <span style="background:var(--teal-bg);color:var(--teal-text);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600">${w}</span>
       <span style="font-weight:600">${wools[w].count}명 <span style="font-size:11px;color:var(--text3);font-weight:400">${wools[w].recorder}</span></span>
     </div>`).join('');
 }
 
 /* ── 저장 ── */
 async function saveWorship() {
-  const date = document.getElementById('input-date').value;
-  if (!date) { showToast('날짜를 선택하세요','warn'); return; }
+  const date = getDate();
   const count = parseInt(document.getElementById('worship-count').value);
-  if (isNaN(count) || count < 0) { showToast('인원 수를 입력하세요','warn'); return; }
-  if (!db[date]) db[date] = { date, worship: null, meeting: null, wools: {} };
-  db[date].worship = count;
-  await store.save(db);
-  showToast(`예배 ${count}명 저장됨`, 'success');
-  document.getElementById('worship-saved-badge').style.display = 'inline-flex';
-  renderHome(); renderList(); renderDash();
+  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
+  setSyncBadge('ing');
+  try {
+    await upsertRecord(date, { worship: count });
+    showToast(`예배 ${count}명 저장됨`, 'success');
+    document.getElementById('worship-saved-badge').style.display='inline-flex';
+    setSyncBadge('ok');
+    renderHome(); renderList(); renderDash();
+  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
 }
 
 async function saveMeeting() {
-  const date = document.getElementById('input-date').value;
-  if (!date) { showToast('날짜를 선택하세요','warn'); return; }
+  const date = getDate();
   const count = parseInt(document.getElementById('meeting-count').value);
-  if (isNaN(count) || count < 0) { showToast('인원 수를 입력하세요','warn'); return; }
-  if (!db[date]) db[date] = { date, worship: null, meeting: null, wools: {} };
-  db[date].meeting = count;
-  await store.save(db);
-  showToast(`집회 ${count}명 저장됨`, 'success');
-  document.getElementById('meeting-saved-badge').style.display = 'inline-flex';
-  renderHome(); renderList(); renderDash();
+  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
+  setSyncBadge('ing');
+  try {
+    await upsertRecord(date, { meeting: count });
+    showToast(`집회 ${count}명 저장됨`, 'success');
+    document.getElementById('meeting-saved-badge').style.display='inline-flex';
+    setSyncBadge('ok');
+    renderHome(); renderList(); renderDash();
+  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
 }
 
 async function saveWool() {
-  const date = document.getElementById('input-date').value;
+  const date = getDate();
   const wool = document.getElementById('wool-select').value;
-  if (!date) { showToast('날짜를 선택하세요','warn'); return; }
   if (!wool) { showToast('울을 선택하세요','warn'); return; }
   const count = parseInt(document.getElementById('wool-count').value);
-  if (isNaN(count) || count < 0) { showToast('인원 수를 입력하세요','warn'); return; }
+  if (isNaN(count)||count<0) { showToast('인원 수를 입력하세요','warn'); return; }
   const recorder = document.getElementById('wool-recorder').value.trim() || '미기재';
-  if (!db[date]) db[date] = { date, worship: null, meeting: null, wools: {} };
-  if (!db[date].wools) db[date].wools = {};
-  db[date].wools[wool] = { count, recorder, savedAt: new Date().toISOString() };
-  await store.save(db);
-  showToast(`${wool} ${count}명 저장됨`, 'success');
-  document.getElementById('wool-count').value = '';
-  document.getElementById('wool-recorder').value = '';
-  document.getElementById('wool-select').value = '';
-  document.getElementById('wool-input-area').style.display = 'none';
-  renderWoolDoneList();
-  renderHome(); renderList(); renderDash();
+  const existing = db[date]?.wools || {};
+  const newWools = { ...existing, [wool]: { count, recorder, savedAt: new Date().toISOString() } };
+  setSyncBadge('ing');
+  try {
+    await upsertRecord(date, { wools: newWools });
+    showToast(`${wool} ${count}명 저장됨`, 'success');
+    document.getElementById('wool-count').value='';
+    document.getElementById('wool-recorder').value='';
+    document.getElementById('wool-select').value='';
+    document.getElementById('wool-input-area').style.display='none';
+    setSyncBadge('ok');
+    renderWoolDoneList();
+    renderHome(); renderList(); renderDash();
+  } catch(e) { setSyncBadge('err'); showToast('저장 실패. 다시 시도해주세요.','error'); }
 }
 
 /* ── 홈 현황 ── */
 function renderHome() {
-  const date = document.getElementById('home-date').value;
+  const date = getDate();
   document.getElementById('home-date-label').textContent = date ? fmtDate(date) : '';
-  const rec = db[date] || { worship: null, meeting: null, wools: {} };
+  const rec = db[date] || { worship:null, meeting:null, wools:{} };
   const wools = rec.wools || {};
-  const doneCnt = WOOLS.filter(w => wools[w] != null).length;
-  const woolTotal = WOOLS.reduce((s,w) => s + (wools[w]?.count || 0), 0);
-
-  // 진행률
-  const wDone = rec.worship != null;
-  const mDone = rec.meeting != null;
-  document.getElementById('prog-worship').style.width = wDone ? '100%' : '0%';
-  document.getElementById('prog-worship-label').textContent = wDone ? `${rec.worship}명` : '미입력';
-  document.getElementById('prog-meeting').style.width = mDone ? '100%' : '0%';
-  document.getElementById('prog-meeting-label').textContent = mDone ? `${rec.meeting}명` : '미입력';
+  const doneCnt = WOOLS.filter(w => wools[w]!=null).length;
+  const woolTotal = WOOLS.reduce((s,w)=>s+(wools[w]?.count||0),0);
+  const wDone = rec.worship!=null, mDone = rec.meeting!=null;
+  document.getElementById('prog-worship').style.width = wDone?'100%':'0%';
+  document.getElementById('prog-worship-label').textContent = wDone?`${rec.worship}명`:'미입력';
+  document.getElementById('prog-meeting').style.width = mDone?'100%':'0%';
+  document.getElementById('prog-meeting-label').textContent = mDone?`${rec.meeting}명`:'미입력';
   document.getElementById('prog-wool').style.width = `${Math.round(doneCnt/13*100)}%`;
   document.getElementById('prog-wool-label').textContent = `${doneCnt} / 13`;
-
-  // 상태 타이틀
   const total = (wDone?1:0)+(mDone?1:0)+(doneCnt===13?1:0);
-  const titles = ['입력 대기 중','일부 입력됨','일부 입력됨','수합 완료'];
-  document.getElementById('home-status-title').textContent = titles[total];
-
-  // 숫자
-  document.getElementById('home-worship').textContent = wDone ? rec.worship : '—';
-  document.getElementById('home-meeting').textContent = mDone ? rec.meeting : '—';
-  document.getElementById('home-wool-total').textContent = doneCnt > 0 ? woolTotal : '—';
-
-  // 울 그리드
+  document.getElementById('home-status-title').textContent = ['입력 대기 중','일부 입력됨','일부 입력됨','수합 완료'][total];
+  document.getElementById('home-worship').textContent = wDone?rec.worship:'—';
+  document.getElementById('home-meeting').textContent = mDone?rec.meeting:'—';
+  document.getElementById('home-wool').textContent = doneCnt>0?woolTotal:'—';
   document.getElementById('wool-status-grid').innerHTML = WOOLS.map(w => {
-    const done = wools[w] != null;
-    return `<div class="wool-status-item ${done?'wool-done':'wool-pending'}">
+    const done = wools[w]!=null;
+    return `<div class="witem ${done?'witem-done':'witem-pending'}">
       <div>${w}</div>
-      <div class="wool-status-count">${done ? wools[w].count+'명' : '미입력'}</div>
+      <div class="witem-cnt">${done?wools[w].count+'명':'미입력'}</div>
     </div>`;
   }).join('');
 }
@@ -644,51 +618,42 @@ function renderHome() {
 /* ── 목록 ── */
 function renderList() {
   const fm = document.getElementById('filter-month').value;
-  const all = Object.values(db).sort((a,b) => b.date.localeCompare(a.date));
-  const filtered = fm ? all.filter(r => r.date.startsWith(fm)) : all;
+  const all = Object.values(db).sort((a,b)=>b.date.localeCompare(a.date));
+  const filtered = fm ? all.filter(r=>r.date.startsWith(fm)) : all;
   document.getElementById('list-count').textContent = `${filtered.length}개의 기록`;
   const container = document.getElementById('log-list');
-  if (!filtered.length) { container.innerHTML = '<div class="empty">기록이 없습니다</div>'; return; }
-
+  if (!filtered.length) { container.innerHTML='<div class="empty">기록이 없습니다</div>'; return; }
   container.innerHTML = filtered.map(r => {
-    const wools = r.wools || {};
-    const doneCnt = WOOLS.filter(w => wools[w] != null).length;
-    const woolTotal = WOOLS.reduce((s,w) => s+(wools[w]?.count||0), 0);
+    const wools = r.wools||{};
+    const doneCnt = WOOLS.filter(w=>wools[w]!=null).length;
+    const woolTotal = WOOLS.reduce((s,w)=>s+(wools[w]?.count||0),0);
     const chips = [
-      r.worship != null ? `<span class="lchip lchip-teal">예배 ${r.worship}명</span>` : `<span class="lchip lchip-gray">예배 미입력</span>`,
-      r.meeting != null ? `<span class="lchip lchip-purple">집회 ${r.meeting}명</span>` : `<span class="lchip lchip-gray">집회 미입력</span>`,
-      doneCnt > 0 ? `<span class="lchip lchip-amber">울모임 ${woolTotal}명 (${doneCnt}/13)</span>` : `<span class="lchip lchip-gray">울모임 미입력</span>`
+      r.worship!=null?`<span class="lchip lc-t">예배 ${r.worship}명</span>`:`<span class="lchip lc-g">예배 미입력</span>`,
+      r.meeting!=null?`<span class="lchip lc-p">집회 ${r.meeting}명</span>`:`<span class="lchip lc-g">집회 미입력</span>`,
+      doneCnt>0?`<span class="lchip lc-a">울모임 ${woolTotal}명 (${doneCnt}/13)</span>`:`<span class="lchip lc-g">울모임 미입력</span>`
     ].join('');
-
-    const woolRows = WOOLS.filter(w => wools[w]).map(w =>
+    const woolRows = WOOLS.filter(w=>wools[w]).map(w=>
       `<div class="wool-detail-row">
         <span style="color:var(--text2)">${w}</span>
         <span>${wools[w].count}명 <span style="font-size:11px;color:var(--text3)">${wools[w].recorder}</span></span>
-      </div>`
-    ).join('');
-
+      </div>`).join('');
     return `<div class="log-card">
-      <div class="log-card-header" onclick="toggleLog('log-${r.date}')">
+      <div class="log-card-hd" onclick="toggleLog('log-${r.date}')">
         <div>
           <div class="log-card-date">${fmtDate(r.date)}</div>
-          <div class="log-card-chips">${chips}</div>
+          <div class="log-chips">${chips}</div>
         </div>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="log-card-body" id="log-${r.date}">
-        ${woolRows ? `<div class="section-mini-label">울별 상세</div>${woolRows}` : '<div style="font-size:13px;color:var(--text3);padding:4px 0">울모임 미입력</div>'}
-        <div class="del-row">
-          <button class="btn-danger" onclick="requestDelete('${r.date}')">이 날짜 기록 삭제</button>
-        </div>
+      <div class="log-card-bd" id="log-${r.date}">
+        ${woolRows?`<div class="mini-label">울별 상세</div>${woolRows}`:'<div style="font-size:13px;color:var(--text3);padding:4px 0">울모임 미입력</div>'}
+        <div class="del-row"><button class="btn-danger" onclick="requestDelete('${r.date}')">이 날짜 기록 삭제</button></div>
       </div>
     </div>`;
   }).join('');
 }
 
-function toggleLog(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
-}
+function toggleLog(id) { document.getElementById(id)?.classList.toggle('open'); }
 
 /* ── 삭제 ── */
 function requestDelete(date) {
@@ -698,120 +663,122 @@ function requestDelete(date) {
 }
 async function confirmDelete() {
   if (!pendingDeleteDate) return;
-  delete db[pendingDeleteDate];
-  pendingDeleteDate = null;
-  closeSheet('confirm-sheet');
-  await store.save(db);
-  showToast('삭제되었습니다', 'deleted');
-  renderList(); renderHome(); renderDash();
+  setSyncBadge('ing');
+  try {
+    await deleteRecord(pendingDeleteDate);
+    pendingDeleteDate = null;
+    closeSheet('confirm-sheet');
+    showToast('삭제되었습니다','deleted');
+    setSyncBadge('ok');
+    renderList(); renderHome(); renderDash();
+  } catch(e) { setSyncBadge('err'); showToast('삭제 실패','error'); }
 }
 
 /* ── 대시보드 ── */
-function setChip(n, el) {
-  chipN = n;
-  document.querySelectorAll('.pchip').forEach(c => c.classList.remove('active'));
+function setChip(n,el) {
+  chipN=n;
+  document.querySelectorAll('.pchip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   renderDash();
 }
 
-let trendChart = null;
-
 function renderDash() {
-  const all = Object.values(db).sort((a,b) => a.date.localeCompare(b.date));
-  const sorted = [...all].reverse();
-  const slice = chipN >= 9999 ? sorted : sorted.slice(0, chipN);
+  const all = Object.values(db).sort((a,b)=>a.date.localeCompare(b.date));
+  const rev = [...all].reverse();
+  const slice = chipN>=9999?rev:rev.slice(0,chipN);
   const filtered = slice.reverse();
   const n = filtered.length;
-
   if (!n) {
-    document.getElementById('dash-period-label').textContent = '데이터 없음';
-    document.getElementById('dash-metrics').innerHTML = '';
-    document.getElementById('wool-bars').innerHTML = '<div class="empty" style="padding:24px 0">데이터가 없습니다</div>';
-    if (trendChart) { trendChart.destroy(); trendChart = null; }
+    document.getElementById('dash-period-label').textContent='데이터 없음';
+    document.getElementById('dash-metrics').innerHTML='';
+    document.getElementById('wool-bars').innerHTML='<div class="empty" style="padding:24px 0">데이터가 없습니다</div>';
+    if (trendChart){trendChart.destroy();trendChart=null;}
     return;
   }
-
-  document.getElementById('dash-period-label').textContent = `${filtered[0].date} ~ ${filtered[n-1].date} · ${n}회`;
-  document.getElementById('dash-chart-sub').textContent = `${filtered[0].date} ~ ${filtered[n-1].date}`;
-
-  const avg = arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : 0;
-  const worships = filtered.map(r => r.worship ?? 0);
-  const meetings = filtered.map(r => r.meeting ?? 0);
-  const woolTotals = filtered.map(r => WOOLS.reduce((s,w)=>s+(r.wools?.[w]?.count||0),0));
-  const avgW = avg(worships), avgM = avg(meetings), avgU = avg(woolTotals);
-  const maxW = Math.max(...worships), maxM = Math.max(...meetings);
-
-  let cmpW='', cmpM='';
-  if (n >= 4) {
-    const h = Math.floor(n/2);
-    const dw = avg(worships.slice(h)) - avg(worships.slice(0,h));
-    const dm = avg(meetings.slice(h)) - avg(meetings.slice(0,h));
-    const pw = Math.round(Math.abs(dw)/Math.max(avg(worships.slice(0,h)),1)*100);
-    const pm = Math.round(Math.abs(dm)/Math.max(avg(meetings.slice(0,h)),1)*100);
-    cmpW = `<div class="${dw>=0?'m-up':'m-down'}">${dw>=0?'▲':'▼'} ${pw}%</div>`;
-    cmpM = `<div class="${dm>=0?'m-up':'m-down'}">${dm>=0?'▲':'▼'} ${pm}%</div>`;
+  document.getElementById('dash-period-label').textContent=`${filtered[0].date} ~ ${filtered[n-1].date} · ${n}회`;
+  document.getElementById('dash-chart-sub').textContent=`${filtered[0].date} ~ ${filtered[n-1].date}`;
+  const avg = arr=>arr.length?Math.round(arr.reduce((a,b)=>a+b,0)/arr.length):0;
+  const worships=filtered.map(r=>r.worship??0);
+  const meetings=filtered.map(r=>r.meeting??0);
+  const woolTotals=filtered.map(r=>WOOLS.reduce((s,w)=>s+(r.wools?.[w]?.count||0),0));
+  const avgW=avg(worships),avgM=avg(meetings),avgU=avg(woolTotals);
+  let cmpW='',cmpM='';
+  if(n>=4){
+    const h=Math.floor(n/2);
+    const dw=avg(worships.slice(h))-avg(worships.slice(0,h));
+    const dm=avg(meetings.slice(h))-avg(meetings.slice(0,h));
+    const pw=Math.round(Math.abs(dw)/Math.max(avg(worships.slice(0,h)),1)*100);
+    const pm=Math.round(Math.abs(dm)/Math.max(avg(meetings.slice(0,h)),1)*100);
+    cmpW=`<div class="${dw>=0?'m-up':'m-down'}">${dw>=0?'▲':'▼'} ${pw}%</div>`;
+    cmpM=`<div class="${dm>=0?'m-up':'m-down'}">${dm>=0?'▲':'▼'} ${pm}%</div>`;
   }
-
-  document.getElementById('dash-metrics').innerHTML = `
-    <div class="metric"><div class="m-label">평균 예배</div><div class="m-val" style="color:var(--teal)">${avgW}</div><div class="m-sub">최고 ${maxW}명</div>${cmpW}</div>
-    <div class="metric"><div class="m-label">평균 집회</div><div class="m-val" style="color:var(--purple)">${avgM}</div><div class="m-sub">최고 ${maxM}명</div>${cmpM}</div>
+  document.getElementById('dash-metrics').innerHTML=`
+    <div class="metric"><div class="m-label">평균 예배</div><div class="m-val" style="color:var(--teal)">${avgW}</div><div class="m-sub">최고 ${Math.max(...worships)}명</div>${cmpW}</div>
+    <div class="metric"><div class="m-label">평균 집회</div><div class="m-val" style="color:var(--purple)">${avgM}</div><div class="m-sub">최고 ${Math.max(...meetings)}명</div>${cmpM}</div>
     <div class="metric"><div class="m-label">울모임 평균</div><div class="m-val" style="color:var(--amber)">${avgU}</div><div class="m-sub">${n}회 기준</div></div>
   `;
-
-  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
-  const gc = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)';
-  const tc = isDark ? '#666662' : '#a0a09c';
-  const labels = filtered.map(r => { const d = new Date(r.date+'T00:00:00'); return `${d.getMonth()+1}/${d.getDate()}`; });
-
-  if (trendChart) { trendChart.destroy(); trendChart = null; }
-  trendChart = new Chart(document.getElementById('trendChart').getContext('2d'), {
-    type: 'line',
-    data: { labels, datasets: [
-      { label:'예배', data:worships, borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.07)', borderWidth:2, pointRadius:n>16?2:4, pointBackgroundColor:'#1D9E75', tension:0.3, fill:true },
-      { label:'집회', data:meetings, borderColor:'#7F77DD', backgroundColor:'rgba(127,119,221,0.07)', borderWidth:2, pointRadius:n>16?2:4, pointBackgroundColor:'#7F77DD', tension:0.3, fill:true, borderDash:[5,3] },
-      { label:'울모임', data:woolTotals, borderColor:'#BA7517', backgroundColor:'rgba(186,117,23,0.07)', borderWidth:2, pointRadius:n>16?2:4, pointBackgroundColor:'#BA7517', tension:0.3, fill:true, borderDash:[2,2] }
+  const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+  const gc=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)';
+  const tc=isDark?'#666662':'#a0a09c';
+  const labels=filtered.map(r=>{const d=new Date(r.date+'T00:00:00');return `${d.getMonth()+1}/${d.getDate()}`;});
+  if(trendChart){trendChart.destroy();trendChart=null;}
+  trendChart=new Chart(document.getElementById('trendChart').getContext('2d'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'예배',data:worships,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.07)',borderWidth:2,pointRadius:n>16?2:4,pointBackgroundColor:'#1D9E75',tension:0.3,fill:true},
+      {label:'집회',data:meetings,borderColor:'#7F77DD',backgroundColor:'rgba(127,119,221,0.07)',borderWidth:2,pointRadius:n>16?2:4,pointBackgroundColor:'#7F77DD',tension:0.3,fill:true,borderDash:[5,3]},
+      {label:'울모임',data:woolTotals,borderColor:'#BA7517',backgroundColor:'rgba(186,117,23,0.07)',borderWidth:2,pointRadius:n>16?2:4,pointBackgroundColor:'#BA7517',tension:0.3,fill:true,borderDash:[2,2]}
     ]},
-    options: {
-      responsive:true, maintainAspectRatio:false,
+    options:{
+      responsive:true,maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}명`}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}명`}}},
       scales:{
         x:{ticks:{font:{size:10},color:tc,autoSkip:true,maxTicksLimit:8},grid:{display:false},border:{display:false}},
         y:{ticks:{font:{size:10},color:tc,callback:v=>v+'명'},grid:{color:gc},border:{display:false}}
       }
     }
   });
-
-  const woolAvg = WOOLS.map(w=>({name:w, avg:avg(filtered.map(r=>r.wools?.[w]?.count||0))})).sort((a,b)=>b.avg-a.avg);
-  const maxAvg = woolAvg[0].avg || 1;
-  document.getElementById('wool-bars').innerHTML = woolAvg.map(({name,avg:a})=>
-    `<div class="wool-bar-row">
-      <span class="wool-name" title="${name}">${name}</span>
-      <div class="wool-bar-bg"><div class="wool-bar-fill" style="width:${Math.round(a/maxAvg*100)}%"></div></div>
-      <span class="wool-num">${a}명</span>
-    </div>`
-  ).join('');
+  const woolAvg=WOOLS.map(w=>({name:w,avg:avg(filtered.map(r=>r.wools?.[w]?.count||0))})).sort((a,b)=>b.avg-a.avg);
+  const maxAvg=woolAvg[0].avg||1;
+  document.getElementById('wool-bars').innerHTML=woolAvg.map(({name,avg:a})=>
+    `<div class="wbar-row">
+      <span class="wbar-name" title="${name}">${name}</span>
+      <div class="wbar-bg"><div class="wbar-fill" style="width:${Math.round(a/maxAvg*100)}%"></div></div>
+      <span class="wbar-num">${a}명</span>
+    </div>`).join('');
 }
 
-/* ── 네비 / 유틸 ── */
+/* ── 네비 ── */
 function switchPage(id) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.getElementById('nav-'+id).classList.add('active');
-  if (id==='input') renderInputSavedState();
-  if (id==='list') renderList();
-  if (id==='dash') renderDash();
+  if(id==='input') renderInputSavedState();
+  if(id==='list') renderList();
+  if(id==='dash') renderDash();
 }
-function openSheet(id) { document.getElementById(id).classList.add('open'); }
-function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'), 2200);
+function openSheet(id){document.getElementById(id).classList.add('open');}
+function closeSheet(id){document.getElementById(id).classList.remove('open');}
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'),2200);
 }
 
-init();
+/* ── 30초마다 자동 새로고침 ── */
+function startPolling() {
+  if(pollingTimer) clearInterval(pollingTimer);
+  pollingTimer = setInterval(loadAll, 30000);
+}
+
+/* ── 초기화 ── */
+const t=todayStr();
+document.getElementById('home-date').value=t;
+document.getElementById('input-date').value=t;
+initWoolSelect();
+loadAll().then(startPolling);
 </script>
 </body>
 </html>

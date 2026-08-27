@@ -1,0 +1,1100 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap');
+
+  :root{
+    --cream:#FFF8EC;
+    --mint:#8FD9C4;
+    --mint-deep:#5FBFA4;
+    --coral:#FF8969;
+    --coral-deep:#F26B47;
+    --sky:#7FB8E8;
+    --sky-deep:#5A9BD4;
+    --sun:#FFD25A;
+    --lav:#C9BBF5;
+    --ink:#4A3728;
+    --ink-soft:#9C8A78;
+    --card:#FFFFFF;
+    --line:#F3E4D2;
+  }
+
+  * { box-sizing: border-box; }
+
+  #rr-root{
+    font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    min-height: 100%;
+    padding-bottom: 60px;
+    overflow-x: hidden;
+  }
+
+  @keyframes rr-float{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-8px) rotate(4deg); }
+  }
+  @keyframes rr-float2{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-6px) rotate(-5deg); }
+  }
+  @keyframes rr-pop{
+    0%{ transform: scale(0.9); opacity:0; }
+    100%{ transform: scale(1); opacity:1; }
+  }
+
+  /* ---------- HERO ---------- */
+  .rr-hero{
+    position: relative;
+    background: linear-gradient(160deg, #FFE8CF 0%, #FFDCE0 38%, #E7E0FB 100%);
+    padding: 44px 24px 0;
+    overflow: hidden;
+  }
+  .rr-sticker{
+    position:absolute;
+    font-size: 26px;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,0.08));
+    animation: rr-float 4.5s ease-in-out infinite;
+    user-select:none;
+  }
+  .rr-sticker.s1{ top:18px; left: 20px; font-size:22px; animation-delay:.2s; }
+  .rr-sticker.s2{ top:10px; right: 26px; font-size:30px; animation: rr-float2 5s ease-in-out infinite; }
+  .rr-sticker.s3{ top:80px; right: 60px; font-size:18px; animation-delay:1.1s; }
+  .rr-sticker.s4{ top:100px; left: 50px; font-size:16px; animation: rr-float2 4s ease-in-out infinite; animation-delay:.6s;}
+
+  .rr-eyebrow{
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:0.02em;
+    color: var(--coral-deep);
+    font-weight:800;
+    background: #fff;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom:14px;
+    position:relative;
+    box-shadow: 0 3px 0 var(--line);
+  }
+  .rr-title{
+    font-weight:800;
+    font-size:26px;
+    line-height:1.45;
+    margin:0 0 10px;
+    position:relative;
+    max-width: 420px;
+    color: var(--ink);
+  }
+  .rr-title b{
+    color: var(--coral-deep);
+    -webkit-text-decoration: wavy underline var(--sun);
+    text-decoration: wavy underline var(--sun);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .rr-sub{
+    font-size:13.5px;
+    font-weight:500;
+    color: #8A7360;
+    line-height:1.6;
+    margin:0 0 20px;
+    position:relative;
+  }
+
+  .rr-stats{
+    display:flex;
+    gap:8px;
+    position:relative;
+    flex-wrap:wrap;
+    padding-bottom: 18px;
+  }
+  .rr-stat{
+    background: #fff;
+    border-radius: 16px;
+    padding: 10px 14px;
+    min-width: 78px;
+    box-shadow: 0 3px 0 var(--line);
+  }
+  .rr-stat b{
+    display:block;
+    font-size:18px;
+    font-weight:800;
+    color: var(--ink);
+  }
+  .rr-stat span{
+    font-size:10.5px;
+    font-weight:600;
+    color: var(--ink-soft);
+  }
+
+  .rr-hero-scene{
+    display:block;
+    width: 100%;
+    height: auto;
+    margin-top: 6px;
+  }
+
+  /* ---------- BODY ---------- */
+  .rr-body{ max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+  .rr-write-toggle{
+    margin-top: -20px;
+    position: relative;
+    z-index: 2;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 16px 18px;
+    border-radius: 20px;
+    font-size: 15.5px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 5px 0 var(--coral-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .rr-write-toggle:hover{ transform: translateY(-2px); box-shadow: 0 7px 0 var(--coral-deep); }
+  .rr-write-toggle:active{ transform: translateY(2px); box-shadow: 0 2px 0 var(--coral-deep); }
+
+  .rr-form{
+    margin-top: 16px;
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 4px 0 var(--line);
+    animation: rr-pop .25s ease;
+  }
+
+  .rr-form-section-label{
+    font-size:12.5px;
+    font-weight:800;
+    color: var(--coral-deep);
+    margin: 4px 0 12px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .rr-form-divider{
+    border:none;
+    border-top: 2px dashed var(--line);
+    margin: 18px 0 14px;
+  }
+
+  .rr-field{ margin-bottom: 16px; }
+  .rr-field label{
+    display:block;
+    font-size:12.5px;
+    font-weight:700;
+    color: var(--ink);
+    margin-bottom:8px;
+  }
+  .rr-field input[type=text], .rr-field textarea{
+    width:100%;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    font-family: inherit;
+    font-weight:500;
+    color: var(--ink);
+    background: var(--cream);
+    resize: vertical;
+  }
+  .rr-field input[type=text]:focus, .rr-field textarea:focus{
+    outline: none;
+    border-color: var(--coral);
+    background:#fff;
+  }
+  .rr-field textarea{ min-height: 88px; line-height:1.6; }
+
+  .rr-group-picker, .rr-program-picker{ display:flex; gap:8px; flex-wrap:wrap; }
+  .rr-chip{
+    border: 2px solid var(--line);
+    background: #fff;
+    color: var(--ink-soft);
+    padding: 9px 15px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    transition: transform .1s ease;
+  }
+  .rr-chip:active{ transform: scale(0.96); }
+  .rr-chip.active[data-g="새청년부"]{ background: var(--mint); border-color: var(--mint-deep); color:#fff; }
+  .rr-chip.active[data-g="청년1부"]{ background: var(--coral); border-color: var(--coral-deep); color:#fff; }
+  .rr-chip.active[data-g="청년2부"]{ background: var(--sky); border-color: var(--sky-deep); color:#fff; }
+  .rr-chip.active[data-p]{ background: var(--lav); border-color: #A992EE; color:#fff; }
+
+  .rr-star-picker{ display:flex; gap:6px; }
+  .rr-star{
+    background:#fff;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    font-size: 22px;
+    line-height:1;
+    color:#E6DCC8;
+    cursor:pointer;
+    padding: 8px 10px;
+    font-family: inherit;
+    transition: transform .1s ease;
+  }
+  .rr-star.on{ color: var(--sun); border-color: var(--sun); background: #FFFAEA; transform: scale(1.06); }
+  .rr-star-hint{ font-size:12px; font-weight:600; color:#A79E8E; margin-top:6px; }
+
+  .rr-charcount{ text-align:right; font-size:11px; color:#B8A996; margin-top:4px; }
+
+  /* ---------- ASCII STAMP (8자 한줄평) ---------- */
+  .rr-ascii-preview-wrap{ margin-top:12px; }
+  .rr-ascii-preview-label{ font-size:11px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; }
+  .rr-ascii-hint{ font-size:11.5px; font-weight:600; color:#C6B9A8; margin-top:6px; }
+
+  .rr-ascii-frame{
+    position: relative;
+    border: 2.5px dashed var(--accent, var(--coral));
+    background: var(--accent-soft, #FFF1EB);
+    border-radius: 18px;
+    padding: 16px 12px 14px;
+    display:flex;
+    justify-content:center;
+    animation: rr-pop .25s ease;
+  }
+  .rr-ascii-letters{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .rr-ascii-letter{
+    width:30px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    background:#fff;
+    border:2px solid var(--accent, var(--coral));
+    border-radius:9px;
+    font-weight:800;
+    font-size:15px;
+    color: var(--ink);
+    box-shadow: 0 2.5px 0 var(--accent, var(--coral));
+  }
+  .rr-ascii-corner{
+    position:absolute;
+    font-size:14px;
+    line-height:1;
+  }
+  .rr-ascii-corner.tl{ top:-9px; left:-6px; }
+  .rr-ascii-corner.tr{ top:-9px; right:-6px; }
+  .rr-ascii-corner.bl{ bottom:-9px; left:-6px; }
+  .rr-ascii-corner.br{ bottom:-9px; right:-6px; }
+
+  .rr-submit-row{ display:flex; gap:8px; margin-top: 4px; }
+  .rr-submit{
+    flex:1;
+    background: var(--ink);
+    color:#fff;
+    border:none;
+    padding: 13px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight:800;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow: 0 4px 0 #2E2115;
+  }
+  .rr-submit:active{ transform: translateY(2px); box-shadow: 0 2px 0 #2E2115; }
+  .rr-submit:disabled{ opacity:0.5; cursor:not-allowed; box-shadow:none; }
+  .rr-cancel{
+    background: #fff;
+    border: 2px solid var(--line);
+    color: var(--ink-soft);
+    padding: 13px 16px;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight:700;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .rr-error{ color:#E0563A; font-size:12.5px; font-weight:600; margin-top:6px; }
+
+  /* ---------- STATS PANEL ---------- */
+  .rr-stats-panel{
+    margin-top: 22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .rr-stat-card{
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 22px;
+    padding: 18px 20px;
+    position: relative;
+  }
+  .rr-stat-card::before{
+    content:"";
+    position:absolute;
+    top:-8px; left: 22px;
+    width: 30px; height:16px;
+    background: var(--sun);
+    border-radius: 6px;
+    opacity: 0.9;
+    transform: rotate(-4deg);
+  }
+  .rr-stat-card-head{
+    font-size:13px;
+    font-weight:800;
+    color: var(--ink);
+    margin-bottom: 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .rr-stat-card-head .rr-n{ font-weight:600; color:#B8A996; font-size:11px; }
+
+  .rr-rating-big{
+    display:flex;
+    align-items:baseline;
+    gap:4px;
+    margin-bottom: 14px;
+  }
+  .rr-rating-big span{
+    font-size: 34px;
+    font-weight:800;
+    color: var(--coral-deep);
+  }
+  .rr-rating-big small{ font-size:14px; font-weight:600; color:#B8A996; }
+  .rr-rating-big .rr-stars-mini{ font-size:16px; color: var(--sun); margin-left:4px; }
+
+  .rr-bar-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+    font-size: 12.5px;
+  }
+  .rr-bar-row .rr-bar-label{
+    width: 92px;
+    flex-shrink:0;
+    color: var(--ink);
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .rr-bar-track{
+    flex:1;
+    height: 12px;
+    background: var(--cream);
+    border-radius: 999px;
+    overflow:hidden;
+    border: 1.5px solid var(--line);
+  }
+  .rr-bar-fill{
+    height:100%;
+    border-radius:999px;
+    background: linear-gradient(90deg, var(--lav), #A992EE);
+    transition: width .5s ease;
+  }
+  .rr-bar-fill.rating{ background: linear-gradient(90deg, var(--mint), var(--mint-deep)); }
+  .rr-bar-count{
+    width: 40px;
+    flex-shrink:0;
+    text-align:right;
+    color:#B8A996;
+    font-weight:600;
+    font-size:11.5px;
+  }
+  .rr-top-badge{
+    display:inline-block;
+    background: var(--sun);
+    color:#7A5A00;
+    font-size:10.5px;
+    font-weight:800;
+    padding: 3px 10px;
+    border-radius:999px;
+    margin: -2px 0 10px 100px;
+  }
+  .rr-stat-empty{ font-size:12.5px; font-weight:600; color:#C6B9A8; padding: 6px 0; }
+
+  /* ---------- FILTERS ---------- */
+  .rr-filters{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding: 20px 0 6px;
+    position: sticky;
+    top:0;
+    background: var(--cream);
+    z-index: 3;
+  }
+  .rr-filter-btn{
+    flex-shrink:0;
+    border: 2px solid var(--line);
+    background:#fff;
+    color: var(--ink-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .rr-filter-btn.active{
+    background: var(--ink);
+    border-color: var(--ink);
+    color:#fff;
+  }
+
+  /* ---------- LIST ---------- */
+  .rr-list{ display:flex; flex-direction:column; gap:16px; margin-top:6px; }
+
+  .rr-card{
+    background: var(--card);
+    border-radius: 20px;
+    padding: 18px 18px 14px;
+    position: relative;
+    border: 2px solid var(--line);
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .rr-card:nth-child(3n+1){ --tilt: -0.6deg; }
+  .rr-card:nth-child(3n+2){ --tilt: 0.5deg; }
+  .rr-card:nth-child(3n+3){ --tilt: -0.3deg; }
+
+  .rr-card-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .rr-badge{
+    font-size: 11px;
+    font-weight:800;
+    padding: 5px 11px;
+    border-radius: 999px;
+    color:#fff;
+  }
+  .rr-badge.g-새청년부{ background: var(--mint-deep); }
+  .rr-badge.g-청년1부{ background: var(--coral-deep); }
+  .rr-badge.g-청년2부{ background: var(--sky-deep); }
+  .rr-date{ font-size:11px; font-weight:600; color:#C6B9A8; }
+
+  .rr-name-row{ display:flex; align-items:center; gap:8px; margin: 0 0 6px; flex-wrap:wrap; }
+  .rr-name{
+    font-weight:800;
+    font-size:15.5px;
+    margin: 0;
+    color: var(--ink);
+  }
+  .rr-name-stars{ font-size:13px; color: var(--sun); letter-spacing:1px; }
+  .rr-program-tag{
+    font-size:11.5px;
+    font-weight:700;
+    color: #6B4FC4;
+    background: #F1ECFF;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin: 0 0 10px;
+    display:inline-block;
+  }
+  .rr-text{
+    font-size: 14px;
+    font-weight:500;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre-wrap;
+    margin: 4px 0 12px;
+    word-break: break-word;
+  }
+  .rr-card-bottom{ display:flex; align-items:center; justify-content:flex-end; border-top:2px dashed var(--line); padding-top:10px; }
+  .rr-like{
+    display:flex; align-items:center; gap:6px;
+    background: var(--cream);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size:12.5px;
+    font-weight:800;
+    color: var(--ink-soft);
+    cursor:pointer;
+    font-family:inherit;
+    transition: transform .1s ease;
+  }
+  .rr-like:active{ transform: scale(0.94); }
+  .rr-like.liked{ background: #FFE9CC; border-color: var(--sun); color:#9A6A00; }
+
+  .rr-empty{
+    text-align:center;
+    padding: 46px 20px;
+    color: var(--ink-soft);
+  }
+  .rr-empty-emoji{ font-size:40px; margin-bottom:10px; }
+  .rr-empty b{ display:block; font-weight:800; font-size:16px; color:var(--ink); margin-bottom:6px; }
+  .rr-empty span{ font-size:13px; font-weight:500; line-height:1.6; }
+
+  .rr-loading{ text-align:center; padding:40px 0; color:#C6B9A8; font-size:13px; font-weight:600; }
+  .rr-toast{
+    position: fixed;
+    bottom: 20px; left:50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color:#fff;
+    padding: 11px 20px;
+    border-radius: 999px;
+    font-size:13px;
+    font-weight:700;
+    box-shadow: 0 6px 16px -4px rgba(0,0,0,0.3);
+    z-index: 10;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .rr-toast.show{ opacity:1; transform: translateX(-50%) translateY(-4px); }
+</style>
+
+<div id="rr-root">
+  <div class="rr-hero">
+    <span class="rr-sticker s1">⛺️</span>
+    <span class="rr-sticker s2">✨</span>
+    <span class="rr-sticker s3">🌟</span>
+    <span class="rr-sticker s4">☁️</span>
+
+    <div class="rr-eyebrow">🏕️ 청년 연합 수련회 · 팀수양관</div>
+    <h1 class="rr-title">우리가 함께한 순간,<br/><b>조각조각</b> 모아볼까요?</h1>
+    <p class="rr-sub">새청년부 · 청년1부 · 청년2부, 400명이 함께 다녀온 이야기</p>
+
+    <div class="rr-stats">
+      <div class="rr-stat"><b id="rr-stat-total">–</b><span>💌 등록 후기</span></div>
+      <div class="rr-stat"><b id="rr-stat-new-n">–</b><span>🌱 새청년부</span></div>
+      <div class="rr-stat"><b id="rr-stat-1-n">–</b><span>🔥 청년1부</span></div>
+      <div class="rr-stat"><b id="rr-stat-2-n">–</b><span>🌊 청년2부</span></div>
+    </div>
+
+    <svg class="rr-hero-scene" viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,90 L0,55 L60,18 L120,55 L150,32 L190,55 L240,10 L300,55 L340,30 L400,55 L400,90 Z" fill="#FBEFE0"/>
+      <path d="M0,90 L0,68 L90,40 L170,68 L230,45 L290,68 L400,42 L400,90 Z" fill="#FFF8EC"/>
+      <g transform="translate(178,40)">
+        <polygon points="22,0 44,42 0,42" fill="#FF8969"/>
+        <polygon points="22,0 34,42 22,42" fill="#F26B47"/>
+        <rect x="18" y="30" width="8" height="12" fill="#4A3728"/>
+        <polygon points="22,2 30,10 22,10" fill="#FFD25A"/>
+      </g>
+      <circle cx="90" cy="30" r="9" fill="#8FD9C4"/>
+      <circle cx="102" cy="36" r="12" fill="#8FD9C4"/>
+      <rect x="98" y="46" width="6" height="10" fill="#5FBFA4"/>
+      <circle cx="300" cy="26" r="8" fill="#7FB8E8"/>
+      <circle cx="311" cy="33" r="11" fill="#7FB8E8"/>
+      <rect x="307" y="42" width="6" height="10" fill="#5A9BD4"/>
+    </svg>
+  </div>
+
+  <div class="rr-body">
+    <button class="rr-write-toggle" id="rr-toggle-btn" type="button">✏️ 내 이야기 남기기</button>
+
+    <div class="rr-form" id="rr-form" style="display:none;">
+
+      <div class="rr-form-section-label">🎈 간단 설문</div>
+
+      <div class="rr-field">
+        <label>전체 만족도</label>
+        <div class="rr-star-picker" id="rr-star-picker">
+          <button type="button" class="rr-star" data-v="1">★</button>
+          <button type="button" class="rr-star" data-v="2">★</button>
+          <button type="button" class="rr-star" data-v="3">★</button>
+          <button type="button" class="rr-star" data-v="4">★</button>
+          <button type="button" class="rr-star" data-v="5">★</button>
+        </div>
+        <div class="rr-star-hint" id="rr-star-hint">별을 눌러 점수를 남겨주세요</div>
+      </div>
+
+      <div class="rr-field">
+        <label>가장 좋았던 프로그램/순서</label>
+        <div class="rr-program-picker" id="rr-program-picker"></div>
+      </div>
+
+      <hr class="rr-form-divider" />
+      <div class="rr-form-section-label">👋 기본 정보</div>
+
+      <div class="rr-field">
+        <label for="rr-name">이름 / 닉네임</label>
+        <input type="text" id="rr-name" maxlength="20" placeholder="예: 김료니" />
+      </div>
+      <div class="rr-field">
+        <label>소속 그룹</label>
+        <div class="rr-group-picker" id="rr-group-picker">
+          <button type="button" class="rr-chip" data-g="새청년부">🌱 새청년부</button>
+          <button type="button" class="rr-chip" data-g="청년1부">🔥 청년1부</button>
+          <button type="button" class="rr-chip" data-g="청년2부">🌊 청년2부</button>
+        </div>
+      </div>
+
+      <hr class="rr-form-divider" />
+      <div class="rr-form-section-label">💌 자유 후기 (선택)</div>
+
+      <div class="rr-field">
+        <label for="rr-text">기억에 남는 순간이나 느낀 점</label>
+        <textarea id="rr-text" maxlength="500" placeholder="자유롭게 남겨주세요. (안 써도 설문만 제출할 수 있어요)"></textarea>
+        <div class="rr-charcount"><span id="rr-charcount">0</span>/500</div>
+      </div>
+
+      <div class="rr-field">
+        <label for="rr-catchphrase">🎨 한 줄 도장 찍기 (정확히 8자, 선택)</label>
+        <input type="text" id="rr-catchphrase" maxlength="8" placeholder="예: 최고의추억완성했다" />
+        <div class="rr-charcount"><span id="rr-catchcount">0</span>/8</div>
+        <div class="rr-ascii-hint" id="rr-ascii-hint">8자를 채우면 도장 미리보기가 떠요 ✨</div>
+        <div class="rr-ascii-preview-wrap" id="rr-ascii-preview-wrap" style="display:none;">
+          <div class="rr-ascii-preview-label">미리보기</div>
+          <div id="rr-ascii-preview"></div>
+        </div>
+      </div>
+
+      <div id="rr-form-error" class="rr-error" style="display:none;"></div>
+      <div class="rr-submit-row">
+        <button type="button" class="rr-cancel" id="rr-cancel-btn">취소</button>
+        <button type="button" class="rr-submit" id="rr-submit-btn">등록하기 🎉</button>
+      </div>
+    </div>
+
+    <div class="rr-filters" id="rr-filters">
+      <button class="rr-filter-btn active" data-f="전체" type="button">전체</button>
+      <button class="rr-filter-btn" data-f="새청년부" type="button">🌱 새청년부</button>
+      <button class="rr-filter-btn" data-f="청년1부" type="button">🔥 청년1부</button>
+      <button class="rr-filter-btn" data-f="청년2부" type="button">🌊 청년2부</button>
+    </div>
+
+    <div class="rr-stats-panel" id="rr-stats-panel">
+      <div class="rr-stat-card">
+        <div class="rr-stat-card-head">
+          <span>⭐ 전체 만족도</span>
+          <span class="rr-n" id="rr-rating-n">응답 – 명</span>
+        </div>
+        <div class="rr-rating-big">
+          <span id="rr-avg-rating">–</span><small>/5</small>
+          <span class="rr-stars-mini" id="rr-avg-rating-stars"></span>
+        </div>
+        <div id="rr-rating-bars"></div>
+      </div>
+      <div class="rr-stat-card">
+        <div class="rr-stat-card-head">
+          <span>🏆 가장 좋았던 프로그램/순서</span>
+          <span class="rr-n" id="rr-program-n">응답 – 명</span>
+        </div>
+        <div id="rr-program-bars"></div>
+      </div>
+    </div>
+
+    <div id="rr-list-area" style="margin-top:20px;">
+      <div class="rr-loading">후기를 불러오는 중...</div>
+    </div>
+  </div>
+
+  <div class="rr-toast" id="rr-toast"></div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'retreat-reviews-list';
+
+  // ⚠️ 실제 수련회 프로그램/순서명으로 바꿔서 사용하세요 (임시로 채워둔 값입니다)
+  // PROGRAM_OPTIONS와 PROGRAM_ICONS는 같은 순서/개수로 맞춰주세요.
+  const PROGRAM_OPTIONS = ['저녁 집회', '조별 나눔', '찬양 & 워십', '레크리에이션', '자유 시간'];
+  const PROGRAM_ICONS   = ['🌙',        '💬',        '🎤',          '🎉',           '☀️'];
+  const FALLBACK_ICON = '🎈';
+
+  function iconFor(program){
+    const idx = PROGRAM_OPTIONS.indexOf(program);
+    return idx !== -1 ? (PROGRAM_ICONS[idx] || FALLBACK_ICON) : FALLBACK_ICON;
+  }
+
+  // ---------- 8자 한줄평 스탬프 (아스키아트) ----------
+  const ASCII_FRAMES = [
+    { corner: '⛺️', color: 'var(--coral)', soft: '#FFF1EB' },
+    { corner: '🌟', color: 'var(--sun)',   soft: '#FFF9E6' },
+    { corner: '🌿', color: 'var(--mint-deep)', soft: '#EAFAF4' },
+    { corner: '☁️', color: 'var(--sky-deep)',  soft: '#EAF4FC' },
+    { corner: '💜', color: '#A992EE',      soft: '#F1ECFF' }
+  ];
+
+  function hashStr(s){
+    let h = 0;
+    for(let i=0; i<s.length; i++){ h = (h*31 + s.charCodeAt(i)) | 0; }
+    return Math.abs(h);
+  }
+
+  function renderAsciiStamp(text, seedKey){
+    const idx = hashStr(seedKey || text) % ASCII_FRAMES.length;
+    const style = ASCII_FRAMES[idx];
+    const letters = text.split('').map(ch =>
+      `<span class="rr-ascii-letter">${escapeHtml(ch)}</span>`
+    ).join('');
+    return `
+      <div class="rr-ascii-frame" style="--accent:${style.color}; --accent-soft:${style.soft};">
+        <span class="rr-ascii-corner tl">${style.corner}</span>
+        <span class="rr-ascii-corner tr">${style.corner}</span>
+        <div class="rr-ascii-letters">${letters}</div>
+        <span class="rr-ascii-corner bl">${style.corner}</span>
+        <span class="rr-ascii-corner br">${style.corner}</span>
+      </div>`;
+  }
+
+  const likedInSession = new Set();
+
+  let reviews = [];
+  let currentFilter = '전체';
+  let selectedGroup = null;
+  let selectedProgram = null;
+  let selectedRating = 0;
+
+  const $ = (sel, root) => (root||document).querySelector(sel);
+  const $all = (sel, root) => Array.from((root||document).querySelectorAll(sel));
+
+  const listArea = $('#rr-list-area');
+  const toggleBtn = $('#rr-toggle-btn');
+  const formEl = $('#rr-form');
+  const cancelBtn = $('#rr-cancel-btn');
+  const submitBtn = $('#rr-submit-btn');
+  const nameInput = $('#rr-name');
+  const textInput = $('#rr-text');
+  const charcount = $('#rr-charcount');
+  const catchInput = $('#rr-catchphrase');
+  const catchcount = $('#rr-catchcount');
+  const asciiHint = $('#rr-ascii-hint');
+  const asciiPreviewWrap = $('#rr-ascii-preview-wrap');
+  const asciiPreview = $('#rr-ascii-preview');
+  const formError = $('#rr-form-error');
+  const groupPicker = $('#rr-group-picker');
+  const programPicker = $('#rr-program-picker');
+  const starPicker = $('#rr-star-picker');
+  const starHint = $('#rr-star-hint');
+  const filtersEl = $('#rr-filters');
+  const toast = $('#rr-toast');
+
+  // build program picker chips from PROGRAM_OPTIONS
+  programPicker.innerHTML = PROGRAM_OPTIONS.map((p, i) =>
+    `<button type="button" class="rr-chip" data-p="${escapeHtml(p)}">${PROGRAM_ICONS[i] || FALLBACK_ICON} ${escapeHtml(p)}</button>`
+  ).join('');
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2000);
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function formatDate(iso){
+    try{
+      const d = new Date(iso);
+      const mm = d.getMonth()+1, dd = d.getDate();
+      let h = d.getHours(); const min = String(d.getMinutes()).padStart(2,'0');
+      const ampm = h < 12 ? '오전' : '오후';
+      h = h % 12; if(h===0) h = 12;
+      return `${mm}/${dd} ${ampm} ${h}:${min}`;
+    }catch(e){ return ''; }
+  }
+
+  async function loadReviews(){
+    listArea.innerHTML = '<div class="rr-loading">후기를 불러오는 중...</div>';
+    try{
+      const res = await window.storage.get(STORAGE_KEY, true);
+      reviews = res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){
+      reviews = [];
+    }
+    renderHeaderStats();
+    renderStatsPanel();
+    renderList();
+  }
+
+  function renderHeaderStats(){
+    $('#rr-stat-total').textContent = reviews.length;
+    const counts = { '새청년부':0, '청년1부':0, '청년2부':0 };
+    reviews.forEach(r => { if(counts[r.group] !== undefined) counts[r.group]++; });
+    $('#rr-stat-new-n').textContent = counts['새청년부'];
+    $('#rr-stat-1-n').textContent = counts['청년1부'];
+    $('#rr-stat-2-n').textContent = counts['청년2부'];
+  }
+
+  function renderStatsPanel(){
+    // --- rating ---
+    const ratedReviews = reviews.filter(r => r.rating && r.rating >= 1);
+    const ratingN = ratedReviews.length;
+    $('#rr-rating-n').textContent = `응답 ${ratingN}명`;
+
+    if(ratingN === 0){
+      $('#rr-avg-rating').textContent = '–';
+      $('#rr-avg-rating-stars').textContent = '';
+      $('#rr-rating-bars').innerHTML = '<div class="rr-stat-empty">아직 응답이 없어요 🐣</div>';
+    } else {
+      const avg = ratedReviews.reduce((s,r)=> s + r.rating, 0) / ratingN;
+      $('#rr-avg-rating').textContent = avg.toFixed(1);
+      $('#rr-avg-rating-stars').textContent = '★'.repeat(Math.round(avg));
+
+      const dist = {5:0,4:0,3:0,2:0,1:0};
+      ratedReviews.forEach(r => { if(dist[r.rating] !== undefined) dist[r.rating]++; });
+
+      $('#rr-rating-bars').innerHTML = [5,4,3,2,1].map(v => {
+        const c = dist[v];
+        const pct = ratingN ? Math.round((c/ratingN)*100) : 0;
+        return `
+          <div class="rr-bar-row">
+            <span class="rr-bar-label">${'★'.repeat(v)}</span>
+            <span class="rr-bar-track"><span class="rr-bar-fill rating" style="width:${pct}%"></span></span>
+            <span class="rr-bar-count">${c}명</span>
+          </div>`;
+      }).join('');
+    }
+
+    // --- program ---
+    const programReviews = reviews.filter(r => r.favoriteProgram);
+    const programN = programReviews.length;
+    $('#rr-program-n').textContent = `응답 ${programN}명`;
+
+    if(programN === 0){
+      $('#rr-program-bars').innerHTML = '<div class="rr-stat-empty">아직 응답이 없어요 🐣</div>';
+    } else {
+      const counts = {};
+      PROGRAM_OPTIONS.forEach(p => counts[p] = 0);
+      programReviews.forEach(r => {
+        if(counts[r.favoriteProgram] === undefined) counts[r.favoriteProgram] = 0;
+        counts[r.favoriteProgram]++;
+      });
+      const rows = Object.keys(counts)
+        .map(p => ({ p, c: counts[p] }))
+        .sort((a,b) => b.c - a.c);
+
+      $('#rr-program-bars').innerHTML = rows.map((row, i) => {
+        const pct = programN ? Math.round((row.c/programN)*100) : 0;
+        const isTop = i === 0 && row.c > 0;
+        return `
+          <div class="rr-bar-row">
+            <span class="rr-bar-label">${iconFor(row.p)} ${escapeHtml(row.p)}</span>
+            <span class="rr-bar-track"><span class="rr-bar-fill" style="width:${pct}%"></span></span>
+            <span class="rr-bar-count">${row.c}명</span>
+          </div>${isTop ? `<div class="rr-top-badge">🏆 1위 · ${pct}%</div>` : ''}`;
+      }).join('');
+    }
+  }
+
+  function renderList(){
+    const filtered = currentFilter === '전체'
+      ? reviews
+      : reviews.filter(r => r.group === currentFilter);
+
+    const sorted = [...filtered].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    if(sorted.length === 0){
+      listArea.innerHTML = `
+        <div class="rr-empty">
+          <div class="rr-empty-emoji">🏕️</div>
+          <b>${currentFilter === '전체' ? '아직 등록된 후기가 없어요' : `${currentFilter}의 후기가 아직 없어요`}</b>
+          <span>첫 번째 이야기를 남겨서 함께한 순간을 나눠주세요 :)</span>
+        </div>`;
+      return;
+    }
+
+    listArea.innerHTML = `<div class="rr-list">${sorted.map(cardHtml).join('')}</div>`;
+
+    $all('.rr-like', listArea).forEach(btn => {
+      btn.addEventListener('click', onLikeClick);
+    });
+  }
+
+  function cardHtml(r){
+    const liked = likedInSession.has(r.id);
+    const starsStr = r.rating ? '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating) : '';
+    return `
+      <div class="rr-card" data-id="${r.id}">
+        <div class="rr-card-top">
+          <span class="rr-badge g-${r.group}">${r.group}</span>
+          <span class="rr-date">${formatDate(r.createdAt)}</span>
+        </div>
+        <div class="rr-name-row">
+          <p class="rr-name">${escapeHtml(r.name)}</p>
+          ${starsStr ? `<span class="rr-name-stars">${starsStr}</span>` : ''}
+        </div>
+        ${r.favoriteProgram ? `<span class="rr-program-tag">${iconFor(r.favoriteProgram)} 가장 좋았던 순서 · ${escapeHtml(r.favoriteProgram)}</span>` : ''}
+        ${r.catchphrase ? renderAsciiStamp(r.catchphrase, r.id) : ''}
+        ${r.text ? `<p class="rr-text">${escapeHtml(r.text)}</p>` : ''}
+        <div class="rr-card-bottom">
+          <button type="button" class="rr-like ${liked ? 'liked':''}" data-id="${r.id}">
+            <span>${liked ? '💛' : '🤍'}</span><span>${r.likes || 0}</span>
+          </button>
+        </div>
+      </div>`;
+  }
+
+  async function onLikeClick(e){
+    const id = e.currentTarget.getAttribute('data-id');
+    const alreadyLiked = likedInSession.has(id);
+    e.currentTarget.disabled = true;
+    try{
+      const res = await window.storage.get(STORAGE_KEY, true);
+      const latest = res && res.value ? JSON.parse(res.value) : [];
+      const idx = latest.findIndex(r => r.id === id);
+      if(idx !== -1){
+        latest[idx].likes = (latest[idx].likes || 0) + (alreadyLiked ? -1 : 1);
+        if(latest[idx].likes < 0) latest[idx].likes = 0;
+        await window.storage.set(STORAGE_KEY, JSON.stringify(latest), true);
+        reviews = latest;
+        if(alreadyLiked) likedInSession.delete(id); else likedInSession.add(id);
+        renderList();
+      }
+    }catch(err){
+      showToast('반응 저장에 실패했어요.');
+    }finally{
+      e.currentTarget.disabled = false;
+    }
+  }
+
+  // Filters
+  filtersEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.rr-filter-btn');
+    if(!btn) return;
+    currentFilter = btn.getAttribute('data-f');
+    $all('.rr-filter-btn', filtersEl).forEach(b => b.classList.toggle('active', b === btn));
+    renderList();
+  });
+
+  // Group picker
+  groupPicker.addEventListener('click', (e) => {
+    const chip = e.target.closest('.rr-chip');
+    if(!chip) return;
+    selectedGroup = chip.getAttribute('data-g');
+    $all('.rr-chip', groupPicker).forEach(c => c.classList.toggle('active', c === chip));
+  });
+
+  // Program picker
+  programPicker.addEventListener('click', (e) => {
+    const chip = e.target.closest('.rr-chip');
+    if(!chip) return;
+    selectedProgram = chip.getAttribute('data-p');
+    $all('.rr-chip', programPicker).forEach(c => c.classList.toggle('active', c === chip));
+  });
+
+  // Star picker
+  starPicker.addEventListener('click', (e) => {
+    const star = e.target.closest('.rr-star');
+    if(!star) return;
+    selectedRating = parseInt(star.getAttribute('data-v'), 10);
+    $all('.rr-star', starPicker).forEach(s => {
+      s.classList.toggle('on', parseInt(s.getAttribute('data-v'),10) <= selectedRating);
+    });
+    starHint.textContent = `${selectedRating}점을 선택했어요 ✨`;
+  });
+
+  // Toggle form
+  toggleBtn.addEventListener('click', () => {
+    const isOpen = formEl.style.display !== 'none';
+    formEl.style.display = isOpen ? 'none' : 'block';
+    toggleBtn.style.display = isOpen ? 'block' : 'none';
+    if(!isOpen){ nameInput.focus(); }
+  });
+  cancelBtn.addEventListener('click', () => {
+    formEl.style.display = 'none';
+    toggleBtn.style.display = 'block';
+    resetForm();
+  });
+
+  textInput.addEventListener('input', () => {
+    charcount.textContent = textInput.value.length;
+  });
+
+  catchInput.addEventListener('input', () => {
+    const v = catchInput.value;
+    catchcount.textContent = v.length;
+    if(v.length === 8){
+      asciiHint.style.display = 'none';
+      asciiPreviewWrap.style.display = 'block';
+      asciiPreview.innerHTML = renderAsciiStamp(v, v);
+    } else {
+      asciiPreviewWrap.style.display = 'none';
+      asciiHint.style.display = 'block';
+      asciiHint.textContent = v.length === 0
+        ? '8자를 채우면 도장 미리보기가 떠요 ✨'
+        : `${8 - v.length}자 더 입력하면 도장이 완성돼요`;
+    }
+  });
+
+  function resetForm(){
+    nameInput.value = '';
+    textInput.value = '';
+    charcount.textContent = '0';
+    catchInput.value = '';
+    catchcount.textContent = '0';
+    asciiPreviewWrap.style.display = 'none';
+    asciiHint.style.display = 'block';
+    asciiHint.textContent = '8자를 채우면 도장 미리보기가 떠요 ✨';
+    selectedGroup = null;
+    selectedProgram = null;
+    selectedRating = 0;
+    $all('.rr-chip', groupPicker).forEach(c => c.classList.remove('active'));
+    $all('.rr-chip', programPicker).forEach(c => c.classList.remove('active'));
+    $all('.rr-star', starPicker).forEach(s => s.classList.remove('on'));
+    starHint.textContent = '별을 눌러 점수를 남겨주세요';
+    formError.style.display = 'none';
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    const catchphrase = catchInput.value.trim();
+
+    if(!name || !selectedGroup || !selectedRating || !selectedProgram){
+      formError.textContent = '이름, 소속 그룹, 만족도, 가장 좋았던 프로그램은 모두 선택해주세요. (자유 후기는 선택사항)';
+      formError.style.display = 'block';
+      return;
+    }
+
+    if(catchphrase.length > 0 && catchphrase.length !== 8){
+      formError.textContent = '한 줄 도장은 정확히 8자로 입력하거나, 비워서 넘어가주세요.';
+      formError.style.display = 'block';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '등록 중...';
+
+    const newReview = {
+      id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2,8),
+      name,
+      group: selectedGroup,
+      rating: selectedRating,
+      favoriteProgram: selectedProgram,
+      text,
+      catchphrase: catchphrase.length === 8 ? catchphrase : '',
+      likes: 0,
+      createdAt: new Date().toISOString()
+    };
+
+    try{
+      const res = await window.storage.get(STORAGE_KEY, true);
+      const latest = res && res.value ? JSON.parse(res.value) : [];
+      latest.push(newReview);
+      const ok = await window.storage.set(STORAGE_KEY, JSON.stringify(latest), true);
+      if(ok){
+        reviews = latest;
+        renderHeaderStats();
+        renderStatsPanel();
+        currentFilter = '전체';
+        $all('.rr-filter-btn', filtersEl).forEach(b => b.classList.toggle('active', b.getAttribute('data-f')==='전체'));
+        renderList();
+        resetForm();
+        formEl.style.display = 'none';
+        toggleBtn.style.display = 'block';
+        showToast('후기가 등록됐어요 🎉');
+      }
+    }catch(e){
+      formError.textContent = '등록에 실패했어요. 잠시 후 다시 시도해주세요.';
+      formError.style.display = 'block';
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = '등록하기 🎉';
+    }
+  });
+
+  loadReviews();
+})();
+</script>
